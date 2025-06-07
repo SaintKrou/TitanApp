@@ -157,7 +157,7 @@ namespace TitanApp
         {
             if (dgvClients.CurrentRow == null)
             {
-                MessageBox.Show("Выберите клиента для применения абонемента.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Выберите клиента для применения абонемеtнта.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
