@@ -1,4 +1,7 @@
 using System;
+using System.IO;
+using System.Net.NetworkInformation;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using TitanApp.Controls;
 
@@ -8,17 +11,26 @@ namespace TitanApp
     {
         private ContextMenuStrip _tabContextMenu;
         private TabPage _rightClickedTab;
+        private System.Windows.Forms.Timer _networkTimer;
+
+        private readonly string logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "activity.log.txt");
 
         public MainForm()
         {
             InitializeComponent();
             InitUI();
             InitializeContextMenu();
+
+            _networkTimer = new System.Windows.Forms.Timer();
+            _networkTimer.Interval = 5000;
+            _networkTimer.Tick += NetworkTimer_Tick;
+            _networkTimer.Start();
+
+            UpdateNetworkStatus();
         }
 
         private void InitUI()
         {
-            // Открываем список клиентов при старте
             OpenTab("Клиенты", new ClientListControl(this));
         }
 
@@ -43,20 +55,19 @@ namespace TitanApp
         private void btnClients_Click(object sender, EventArgs e)
         {
             OpenTab("Клиенты", new ClientListControl(this));
+            UpdateNotification("Открыт раздел 'Клиенты'");
         }
 
         private void btnPurchases_Click(object sender, EventArgs e)
         {
             OpenTab("Покупки", new PurchaseControl(this));
+            UpdateNotification("Открыт раздел 'Покупки'");
         }
-
-        private readonly string logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "activity.log.txt");
-
 
         private void btnLogs_Click(object sender, EventArgs e)
         {
-            //string logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "activity.log.txt");
             OpenTab("Журнал", new LogControl(logFile));
+            UpdateNotification("Открыт раздел 'Журнал'");
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -74,6 +85,7 @@ namespace TitanApp
                 if (_rightClickedTab != null && _rightClickedTab.Text != "Клиенты")
                 {
                     tabControlMain.TabPages.Remove(_rightClickedTab);
+                    UpdateNotification($"Закрыта вкладка '{_rightClickedTab.Text}'");
                 }
             };
 
@@ -88,6 +100,7 @@ namespace TitanApp
                         tabControlMain.TabPages.RemoveAt(i);
                     }
                 }
+                UpdateNotification("Закрыты все вкладки кроме 'Клиенты'");
             };
 
             _tabContextMenu.Items.Add(closeTabItem);
@@ -110,6 +123,79 @@ namespace TitanApp
                         break;
                     }
                 }
+            }
+        }
+
+        private void NetworkTimer_Tick(object sender, EventArgs e)
+        {
+            UpdateNetworkStatus();
+        }
+
+        private async void UpdateNetworkStatus()
+        {
+            string quality = await GetConnectionQualityAsync();
+            if (this.InvokeRequired)
+            {
+                this.Invoke((MethodInvoker)(() => lblNetworkStatus.Text = $"Сеть: {quality}"));
+            }
+            else
+            {
+                lblNetworkStatus.Text = $"Сеть: {quality}";
+            }
+        }
+
+        private async Task<string> GetConnectionQualityAsync()
+        {
+            try
+            {
+                using (var ping = new Ping())
+                {
+                    var reply = await ping.SendPingAsync("8.8.8.8", 1000);
+                    if (reply.Status == IPStatus.Success)
+                    {
+                        long rtt = reply.RoundtripTime;
+                        if (rtt < 80) return "Отличное";
+                        else if (rtt < 200) return "Хорошее";
+                        else if (rtt < 300) return "Среднее";
+                        else if (rtt < 400) return "Ниже среднего";
+                        else return "Плохое";
+                    }
+                    else
+                    {
+                        return "Отсутствует";
+                    }
+                }
+            }
+            catch
+            {
+                return "Отсутствует";
+            }
+        }
+
+        // Обновление уведомления (НЕ лог)
+        public void UpdateNotification(string message)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke((MethodInvoker)(() => lblNotifications.Text = message));
+            }
+            else
+            {
+                lblNotifications.Text = message;
+            }
+        }
+
+        // Запись лога (НЕ вызывает уведомление)
+        public void AddLog(string message)
+        {
+            try
+            {
+                string entry = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | {message}{Environment.NewLine}";
+                File.AppendAllText(logFile, entry);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при записи лога: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

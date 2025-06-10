@@ -8,6 +8,9 @@
         private System.Windows.Forms.Button btnPurchases;
         private System.Windows.Forms.Button btnLogs;
         private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.StatusStrip statusStripMain;
+        private System.Windows.Forms.ToolStripStatusLabel lblNotifications;
+        private System.Windows.Forms.ToolStripStatusLabel lblNetworkStatus;
 
         protected override void Dispose(bool disposing)
         {
@@ -23,7 +26,13 @@
             this.btnPurchases = new System.Windows.Forms.Button();
             this.btnLogs = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
+            this.statusStripMain = new System.Windows.Forms.StatusStrip();
+            this.lblNotifications = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblNetworkStatus = new System.Windows.Forms.ToolStripStatusLabel();
+
+            this.statusStripMain.SuspendLayout();
             this.SuspendLayout();
+
             // 
             // tabControlMain
             // 
@@ -35,6 +44,7 @@
             this.tabControlMain.SelectedIndex = 0;
             this.tabControlMain.Size = new System.Drawing.Size(860, 480);
             this.tabControlMain.TabIndex = 0;
+
             // 
             // btnClients
             // 
@@ -45,6 +55,7 @@
             this.btnClients.Text = "Клиенты";
             this.btnClients.UseVisualStyleBackColor = true;
             this.btnClients.Click += new System.EventHandler(this.btnClients_Click);
+
             // 
             // btnPurchases
             // 
@@ -55,6 +66,7 @@
             this.btnPurchases.Text = "Покупки";
             this.btnPurchases.UseVisualStyleBackColor = true;
             this.btnPurchases.Click += new System.EventHandler(this.btnPurchases_Click);
+
             // 
             // btnLogs
             // 
@@ -65,6 +77,7 @@
             this.btnLogs.Text = "Журнал";
             this.btnLogs.UseVisualStyleBackColor = true;
             this.btnLogs.Click += new System.EventHandler(this.btnLogs_Click);
+
             // 
             // btnExit
             // 
@@ -76,10 +89,39 @@
             this.btnExit.Text = "Выход";
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+
+            // 
+            // statusStripMain
+            // 
+            this.statusStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblNotifications,
+            this.lblNetworkStatus});
+            this.statusStripMain.Location = new System.Drawing.Point(0, 545);
+            this.statusStripMain.Name = "statusStripMain";
+            this.statusStripMain.Size = new System.Drawing.Size(884, 22);
+            this.statusStripMain.TabIndex = 5;
+            this.statusStripMain.Text = "statusStripMain";
+
+            // 
+            // lblNotifications
+            // 
+            this.lblNotifications.Name = "lblNotifications";
+            this.lblNotifications.Size = new System.Drawing.Size(600, 17);
+            this.lblNotifications.Spring = true; // Заставляет метку занимать всё доступное пространство слева
+            this.lblNotifications.Text = "Готово";
+
+            // 
+            // lblNetworkStatus
+            // 
+            this.lblNetworkStatus.Name = "lblNetworkStatus";
+            this.lblNetworkStatus.Size = new System.Drawing.Size(150, 17);
+            this.lblNetworkStatus.Text = "Статус сети: неизвестен";
+
             // 
             // MainForm
             // 
-            this.ClientSize = new System.Drawing.Size(884, 561);
+            this.ClientSize = new System.Drawing.Size(884, 567);
+            this.Controls.Add(this.statusStripMain);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnLogs);
             this.Controls.Add(this.btnPurchases);
@@ -88,7 +130,11 @@
             this.MinimumSize = new System.Drawing.Size(900, 600);
             this.Name = "MainForm";
             this.Text = "TitanApp — Учёт клиентов";
+
+            this.statusStripMain.ResumeLayout(false);
+            this.statusStripMain.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
         }
     }
 }
