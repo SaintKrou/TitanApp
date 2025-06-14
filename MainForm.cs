@@ -4,16 +4,21 @@ using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TitanApp.Controls;
+using TitanApp.Models;
 
 namespace TitanApp
 {
     public partial class MainForm : Form
     {
-        private ContextMenuStrip _tabContextMenu;
-        private TabPage _rightClickedTab;
+        private ContextMenuStrip? _tabContextMenu;
+        private TabPage? _rightClickedTab;
         private System.Windows.Forms.Timer _networkTimer;
 
         private readonly string logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "activity.log.txt");
+        private ClientListControl? _clientListControl;
+
+        // Инициализируем событие пустым делегатом, чтобы избежать NullReferenceException
+        public event EventHandler ClientsDataChanged = delegate { };
 
         public MainForm()
         {
@@ -31,7 +36,22 @@ namespace TitanApp
 
         private void InitUI()
         {
-            OpenTab("Клиенты", new ClientListControl(this));
+            ShowClientsTab();
+        }
+
+        public void ShowClientsTab()
+        {
+            foreach (TabPage page in tabControlMain.TabPages)
+            {
+                if (page.Text == "Клиенты")
+                {
+                    tabControlMain.SelectedTab = page;
+                    return;
+                }
+            }
+
+            _clientListControl = new ClientListControl(this);
+            OpenTab("Клиенты", _clientListControl);
         }
 
         public void OpenTab(string title, UserControl control)
@@ -52,25 +72,27 @@ namespace TitanApp
             tabControlMain.SelectedTab = tabPage;
         }
 
-        private void btnClients_Click(object sender, EventArgs e)
+        private void btnClients_Click(object? sender, EventArgs e)
         {
-            OpenTab("Клиенты", new ClientListControl(this));
-            UpdateNotification("Открыт раздел 'Клиенты'");
+            ShowClientsTab();
         }
 
-        private void btnPurchases_Click(object sender, EventArgs e)
+        private void btnPurchases_Click(object? sender, EventArgs e)
         {
             OpenTab("Покупки", new PurchaseControl(this));
-            UpdateNotification("Открыт раздел 'Покупки'");
         }
 
-        private void btnLogs_Click(object sender, EventArgs e)
+        private void btnLogs_Click(object? sender, EventArgs e)
         {
             OpenTab("Журнал", new LogControl(logFile));
-            UpdateNotification("Открыт раздел 'Журнал'");
         }
 
-        private void btnExit_Click(object sender, EventArgs e)
+        private void btnReport_Click(object? sender, EventArgs e)
+        {
+            OpenTab("Отчёт по абонементам", new SubscriptionReportControl());
+        }
+
+        private void btnExit_Click(object? sender, EventArgs e)
         {
             Close();
         }
@@ -85,7 +107,6 @@ namespace TitanApp
                 if (_rightClickedTab != null && _rightClickedTab.Text != "Клиенты")
                 {
                     tabControlMain.TabPages.Remove(_rightClickedTab);
-                    UpdateNotification($"Закрыта вкладка '{_rightClickedTab.Text}'");
                 }
             };
 
@@ -100,7 +121,6 @@ namespace TitanApp
                         tabControlMain.TabPages.RemoveAt(i);
                     }
                 }
-                UpdateNotification("Закрыты все вкладки кроме 'Клиенты'");
             };
 
             _tabContextMenu.Items.Add(closeTabItem);
@@ -109,7 +129,7 @@ namespace TitanApp
             tabControlMain.MouseUp += TabControlMain_MouseUp;
         }
 
-        private void TabControlMain_MouseUp(object sender, MouseEventArgs e)
+        private void TabControlMain_MouseUp(object? sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
@@ -119,14 +139,14 @@ namespace TitanApp
                     if (rect.Contains(e.Location))
                     {
                         _rightClickedTab = tabControlMain.TabPages[i];
-                        _tabContextMenu.Show(tabControlMain, e.Location);
+                        _tabContextMenu?.Show(tabControlMain, e.Location);
                         break;
                     }
                 }
             }
         }
 
-        private void NetworkTimer_Tick(object sender, EventArgs e)
+        private void NetworkTimer_Tick(object? sender, EventArgs e)
         {
             UpdateNetworkStatus();
         }
@@ -172,7 +192,6 @@ namespace TitanApp
             }
         }
 
-        // Обновление уведомления (НЕ лог)
         public void UpdateNotification(string message)
         {
             if (this.InvokeRequired)
@@ -185,7 +204,6 @@ namespace TitanApp
             }
         }
 
-        // Запись лога (НЕ вызывает уведомление)
         public void AddLog(string message)
         {
             try
@@ -197,6 +215,12 @@ namespace TitanApp
             {
                 MessageBox.Show($"Ошибка при записи лога: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        
+        // Метод для уведомления подписчиков о изменении данных клиентов
+        public void NotifyClientsDataChanged()
+        {
+            ClientsDataChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

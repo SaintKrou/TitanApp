@@ -18,10 +18,20 @@ namespace TitanApp.Controls
             InitializeComponent();
             _mainForm = mainForm;
             _db = new AppDbContext();
+
+            // Подписываемся на событие обновления данных
+            _mainForm.ClientsDataChanged += (sender, args) => LoadClients();
+
+            LoadClients();
+            this.Enter += ClientListControl_Enter;
+        }
+
+        private void ClientListControl_Enter(object? sender, EventArgs e)
+        {
             LoadClients();
         }
 
-        private void LoadClients()
+        public void LoadClients()
         {
             var clients = _db.Clients
                 .Select(c => new
@@ -52,6 +62,7 @@ namespace TitanApp.Controls
         private void btnAddClient_Click(object sender, EventArgs e)
         {
             _mainForm.OpenTab("Добавить клиента", new AddClientControl(_mainForm));
+            _mainForm.UpdateNotification("Открыта форма добавления клиента");
         }
 
         private void btnEditClient_Click(object sender, EventArgs e)
@@ -71,7 +82,7 @@ namespace TitanApp.Controls
             }
 
             _mainForm.OpenTab("Редактировать клиента", new AddClientControl(_mainForm, client));
-
+            _mainForm.UpdateNotification($"Редактирование клиента: {client.LastName} {client.FirstName}");
         }
 
         private void btnDeleteClient_Click(object sender, EventArgs e)
@@ -96,7 +107,8 @@ namespace TitanApp.Controls
                 _db.Clients.Remove(client);
                 _db.SaveChanges();
                 LogAction($"{DateTime.Now:dd.MM.yy HH:mm} | Удалён клиент | ID={client.Id} | {client.LastName} {client.FirstName}");
-                LoadClients();
+                _mainForm.NotifyClientsDataChanged();
+                _mainForm.UpdateNotification($"Удалён клиент: {client.LastName} {client.FirstName}");
             }
         }
 
@@ -116,13 +128,21 @@ namespace TitanApp.Controls
                 return;
             }
 
-            if (client.PurchasedSessions > 0)
+            if (client.Unlimited || client.PurchasedSessions > 0)
             {
                 int before = client.PurchasedSessions;
-                client.PurchasedSessions -= 1;
+                if (!client.Unlimited)
+                    client.PurchasedSessions -= 1;
+
                 _db.SaveChanges();
-                LogAction($"{DateTime.Now:dd.MM.yy HH:mm} | Посещение | ID={client.Id} | Занятия: {before} -> {client.PurchasedSessions}");
-                LoadClients();
+
+                string action = client.Unlimited
+                    ? $"{DateTime.Now:dd.MM.yy HH:mm} | Посещение (безлимит) | ID={client.Id}"
+                    : $"{DateTime.Now:dd.MM.yy HH:mm} | Посещение | ID={client.Id} | Занятия: {before} -> {client.PurchasedSessions}";
+
+                LogAction(action);
+                _mainForm.NotifyClientsDataChanged();
+                _mainForm.UpdateNotification($"Посещение клиента: {client.LastName} {client.FirstName}");
             }
             else
             {
@@ -147,16 +167,13 @@ namespace TitanApp.Controls
             }
 
             _mainForm.OpenTab("Применить абонемент", new ApplySubscriptionControl(_mainForm, client));
+            _mainForm.UpdateNotification($"Применение абонемента для клиента: {client.LastName} {client.FirstName}");
         }
 
         private void btnManagePurchases_Click(object sender, EventArgs e)
         {
             _mainForm.OpenTab("Абонементы", new PurchaseControl(_mainForm));
-        }
-
-        private void btnViewLogs_Click(object sender, EventArgs e)
-        {
-            _mainForm.OpenTab("Лог активности", new LogControl(_logFile));
+            _mainForm.UpdateNotification("Открыт раздел 'Абонементы'");
         }
 
         private void LogAction(string message)
@@ -167,7 +184,7 @@ namespace TitanApp.Controls
             }
             catch
             {
-                // Можно проигнорировать или показать сообщение, если важно
+                // Игнорировать ошибки записи логов
             }
         }
     }

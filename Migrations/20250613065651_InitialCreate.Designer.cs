@@ -11,14 +11,14 @@ using TitanApp.Data;
 namespace TitanApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250525163754_AddUnlimitedAndPurchases")]
-    partial class AddUnlimitedAndPurchases
+    [Migration("20250613065651_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.5");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.6");
 
             modelBuilder.Entity("TitanApp.Models.Client", b =>
                 {
@@ -87,6 +87,57 @@ namespace TitanApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Purchases");
+                });
+
+            modelBuilder.Entity("TitanApp.Models.SubscriptionLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("AppliedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ClientName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Cost")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("NewSubscriptionEnd")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("PurchaseName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("SessionsAdded")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Unlimited")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("SubscriptionLogs", (string)null);
+                });
+
+            modelBuilder.Entity("TitanApp.Models.SubscriptionLog", b =>
+                {
+                    b.HasOne("TitanApp.Models.Client", null)
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

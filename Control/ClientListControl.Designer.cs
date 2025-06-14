@@ -10,7 +10,6 @@
         private System.Windows.Forms.Button btnMarkAttendance;
         private System.Windows.Forms.Button btnApplySubscription;
         private System.Windows.Forms.Button btnManagePurchases;
-        private System.Windows.Forms.Button btnViewLogs;
 
         protected override void Dispose(bool disposing)
         {
@@ -30,7 +29,7 @@
             this.btnMarkAttendance = new System.Windows.Forms.Button();
             this.btnApplySubscription = new System.Windows.Forms.Button();
             this.btnManagePurchases = new System.Windows.Forms.Button();
-            this.btnViewLogs = new System.Windows.Forms.Button();
+
 
             ((System.ComponentModel.ISupportInitialize)(this.dgvClients)).BeginInit();
             this.SuspendLayout();
@@ -123,18 +122,6 @@
             this.btnManagePurchases.Click += new System.EventHandler(this.btnManagePurchases_Click);
 
             // 
-            // btnViewLogs
-            // 
-            this.btnViewLogs.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            this.btnViewLogs.Location = new System.Drawing.Point(10, 410);
-            this.btnViewLogs.Name = "btnViewLogs";
-            this.btnViewLogs.Size = new System.Drawing.Size(150, 30);
-            this.btnViewLogs.TabIndex = 7;
-            this.btnViewLogs.Text = "Просмотр журнала";
-            this.btnViewLogs.UseVisualStyleBackColor = true;
-            this.btnViewLogs.Click += new System.EventHandler(this.btnViewLogs_Click);
-
-            // 
             // ClientListControl
             // 
             this.Controls.Add(this.dgvClients);
@@ -144,12 +131,13 @@
             this.Controls.Add(this.btnMarkAttendance);
             this.Controls.Add(this.btnApplySubscription);
             this.Controls.Add(this.btnManagePurchases);
-            this.Controls.Add(this.btnViewLogs);
             this.Name = "ClientListControl";
-            this.Size = new System.Drawing.Size(780, 450);
+            this.Size = new System.Drawing.Size(780, 420);
 
             ((System.ComponentModel.ISupportInitialize)(this.dgvClients)).EndInit();
             this.ResumeLayout(false);
+
+
         }
     }
 }
