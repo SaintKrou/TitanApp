@@ -33,7 +33,13 @@ namespace TitanApp.Controls
 
         public void LoadClients()
         {
+            var today = DateTime.Today;
+
             var clients = _db.Clients
+                .OrderByDescending(c => c.SubscriptionEnd >= today) // true (1) выше false (0)
+                .ThenBy(c => c.LastName)
+                .ThenBy(c => c.FirstName)
+                .ThenBy(c => c.MiddleName)
                 .Select(c => new
                 {
                     Id = c.Id,
@@ -62,7 +68,6 @@ namespace TitanApp.Controls
         private void btnAddClient_Click(object sender, EventArgs e)
         {
             _mainForm.OpenTab("Добавить клиента", new AddClientControl(_mainForm));
-            _mainForm.UpdateNotification("Открыта форма добавления клиента");
         }
 
         private void btnEditClient_Click(object sender, EventArgs e)
@@ -82,7 +87,7 @@ namespace TitanApp.Controls
             }
 
             _mainForm.OpenTab("Редактировать клиента", new AddClientControl(_mainForm, client));
-            _mainForm.UpdateNotification($"Редактирование клиента: {client.LastName} {client.FirstName}");
+            //_mainForm.UpdateNotification($"Редактирование клиента: {client.LastName} {client.FirstName}");
         }
 
         private void btnDeleteClient_Click(object sender, EventArgs e)
@@ -167,13 +172,12 @@ namespace TitanApp.Controls
             }
 
             _mainForm.OpenTab("Применить абонемент", new ApplySubscriptionControl(_mainForm, client));
-            _mainForm.UpdateNotification($"Применение абонемента для клиента: {client.LastName} {client.FirstName}");
+            //_mainForm.UpdateNotification($"Применение абонемента для клиента: {client.LastName} {client.FirstName}");
         }
 
         private void btnManagePurchases_Click(object sender, EventArgs e)
         {
             _mainForm.OpenTab("Абонементы", new PurchaseControl(_mainForm));
-            _mainForm.UpdateNotification("Открыт раздел 'Абонементы'");
         }
 
         private void LogAction(string message)

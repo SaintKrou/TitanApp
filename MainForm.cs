@@ -90,7 +90,7 @@ namespace TitanApp
         }
 
         private void btnClients_Click(object? sender, EventArgs e) => ShowClientsTab();
-        private void btnPurchases_Click(object? sender, EventArgs e) => OpenTab("Покупки", new PurchaseControl(this));
+        private void btnPurchases_Click(object? sender, EventArgs e) => OpenTab("Абонементы", new PurchaseControl(this));
         private void btnLogs_Click(object? sender, EventArgs e) => OpenTab("Журнал", new LogControl(logFile));
         private void btnReport_Click(object? sender, EventArgs e) => OpenTab("Отчёт по абонементам", new SubscriptionReportControl());
         private void btnExit_Click(object? sender, EventArgs e) => Close();
@@ -147,9 +147,9 @@ namespace TitanApp
         {
             string quality = await GetConnectionQualityAsync();
             if (InvokeRequired)
-                Invoke((MethodInvoker)(() => lblNetworkStatus.Text = $"Сеть: {quality}"));
+                Invoke((MethodInvoker)(() => lblNetworkStatus.Text = $"Соединение: {quality}"));
             else
-                lblNetworkStatus.Text = $"Сеть: {quality}";
+                lblNetworkStatus.Text = $"Соединение: {quality}";
         }
 
         private async Task<string> GetConnectionQualityAsync()

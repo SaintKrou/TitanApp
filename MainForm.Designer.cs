@@ -22,6 +22,7 @@
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             tabControlMain = new TabControl();
             btnClients = new Button();
             btnPurchases = new Button();
@@ -59,15 +60,15 @@
             btnPurchases.Location = new Point(123, 16);
             btnPurchases.Margin = new Padding(3, 4, 3, 4);
             btnPurchases.Name = "btnPurchases";
-            btnPurchases.Size = new Size(103, 40);
+            btnPurchases.Size = new Size(119, 40);
             btnPurchases.TabIndex = 2;
-            btnPurchases.Text = "Покупки";
+            btnPurchases.Text = "Абонементы";
             btnPurchases.UseVisualStyleBackColor = true;
             btnPurchases.Click += btnPurchases_Click;
             // 
             // btnLogs
             // 
-            btnLogs.Location = new Point(233, 16);
+            btnLogs.Location = new Point(248, 16);
             btnLogs.Margin = new Padding(3, 4, 3, 4);
             btnLogs.Name = "btnLogs";
             btnLogs.Size = new Size(103, 40);
@@ -78,7 +79,7 @@
             // 
             // btnReport
             // 
-            btnReport.Location = new Point(343, 16);
+            btnReport.Location = new Point(358, 16);
             btnReport.Margin = new Padding(3, 4, 3, 4);
             btnReport.Name = "btnReport";
             btnReport.Size = new Size(183, 40);
@@ -107,7 +108,7 @@
             lblNetworkStatus.Name = "lblNetworkStatus";
             lblNetworkStatus.Size = new Size(127, 20);
             lblNetworkStatus.TabIndex = 6;
-            lblNetworkStatus.Text = "Сеть: неизвестно";
+            lblNetworkStatus.Text = "Соединение: неизвестно";
             // 
             // lblNotifications
             // 
@@ -117,7 +118,7 @@
             lblNotifications.Name = "lblNotifications";
             lblNotifications.Size = new Size(285, 20);
             lblNotifications.TabIndex = 9;
-            lblNotifications.Text = "Уведомления: всё работает нормально";
+            lblNotifications.Text = "Уведомления: ожидание";
             // 
             // lblTelegramStatus
             // 
@@ -143,11 +144,12 @@
             Controls.Add(btnPurchases);
             Controls.Add(btnClients);
             Controls.Add(tabControlMain);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(3, 4, 3, 4);
             MinimumSize = new Size(1140, 944);
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "TitanApp";
+            Text = "Титан";
             ResumeLayout(false);
             PerformLayout();
         }

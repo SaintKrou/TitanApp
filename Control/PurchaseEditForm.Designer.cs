@@ -24,97 +24,138 @@
 
         private void InitializeComponent()
         {
-            this.txtName = new System.Windows.Forms.TextBox();
-            this.nudSessions = new System.Windows.Forms.NumericUpDown();
-            this.chkUnlimited = new System.Windows.Forms.CheckBox();
-            this.nudMonths = new System.Windows.Forms.NumericUpDown();
-            this.nudCost = new System.Windows.Forms.NumericUpDown();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.lblName = new System.Windows.Forms.Label();
-            this.lblSessions = new System.Windows.Forms.Label();
-            this.lblMonths = new System.Windows.Forms.Label();
-            this.lblCost = new System.Windows.Forms.Label();
-
-            ((System.ComponentModel.ISupportInitialize)(this.nudSessions)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudMonths)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudCost)).BeginInit();
-            this.SuspendLayout();
-
+            txtName = new TextBox();
+            nudSessions = new NumericUpDown();
+            chkUnlimited = new CheckBox();
+            nudMonths = new NumericUpDown();
+            nudCost = new NumericUpDown();
+            btnSave = new Button();
+            btnCancel = new Button();
+            lblName = new Label();
+            lblSessions = new Label();
+            lblMonths = new Label();
+            lblCost = new Label();
+            ((System.ComponentModel.ISupportInitialize)nudSessions).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudMonths).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudCost).BeginInit();
+            SuspendLayout();
+            // 
             // txtName
-            this.txtName.Location = new System.Drawing.Point(160, 20);
-            this.txtName.Size = new System.Drawing.Size(200, 27);
-
-            // lblName
-            this.lblName.Text = "Название:";
-            this.lblName.Location = new System.Drawing.Point(20, 22);
-            this.lblName.Size = new System.Drawing.Size(120, 23);
-
+            // 
+            txtName.Location = new Point(174, 22);
+            txtName.Name = "txtName";
+            txtName.Size = new Size(200, 27);
+            txtName.TabIndex = 0;
+            txtName.TextChanged += txtName_TextChanged;
+            // 
             // nudSessions
-            this.nudSessions.Location = new System.Drawing.Point(160, 60);
-            this.nudSessions.Maximum = 100;
-            this.nudSessions.Minimum = 0;
-
-            // lblSessions
-            this.lblSessions.Text = "Кол-во занятий:";
-            this.lblSessions.Location = new System.Drawing.Point(20, 62);
-            this.lblSessions.Size = new System.Drawing.Size(120, 23);
-
+            // 
+            nudSessions.Location = new Point(174, 62);
+            nudSessions.Name = "nudSessions";
+            nudSessions.Size = new Size(120, 27);
+            nudSessions.TabIndex = 1;
+            //nudSessions.ValueChanged += this.nudSessions_ValueChanged;
+            // 
             // chkUnlimited
-            this.chkUnlimited.Text = "Безлимитный";
-            this.chkUnlimited.Location = new System.Drawing.Point(160, 95);
-            this.chkUnlimited.Size = new System.Drawing.Size(120, 24);
-
+            // 
+            chkUnlimited.Location = new Point(174, 97);
+            chkUnlimited.Name = "chkUnlimited";
+            chkUnlimited.Size = new Size(120, 24);
+            chkUnlimited.TabIndex = 2;
+            chkUnlimited.Text = "Безлимитный";
+            //chkUnlimited.CheckedChanged += this.chkUnlimited_CheckedChanged;
+            // 
             // nudMonths
-            this.nudMonths.Location = new System.Drawing.Point(160, 130);
-            this.nudMonths.Maximum = 12;
-            this.nudMonths.Minimum = 1;
-
-            // lblMonths
-            this.lblMonths.Text = "Длительность (мес):";
-            this.lblMonths.Location = new System.Drawing.Point(20, 132);
-            this.lblMonths.Size = new System.Drawing.Size(140, 23);
-
+            // 
+            nudMonths.Location = new Point(174, 132);
+            nudMonths.Maximum = new decimal(new int[] { 12, 0, 0, 0 });
+            nudMonths.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            nudMonths.Name = "nudMonths";
+            nudMonths.Size = new Size(120, 27);
+            nudMonths.TabIndex = 3;
+            nudMonths.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            //nudMonths.ValueChanged += this.nudMonths_ValueChanged;
+            // 
             // nudCost
-            this.nudCost.Location = new System.Drawing.Point(160, 170);
-            this.nudCost.Maximum = 100000;
-
-            // lblCost
-            this.lblCost.Text = "Цена (руб):";
-            this.lblCost.Location = new System.Drawing.Point(20, 172);
-            this.lblCost.Size = new System.Drawing.Size(120, 23);
-
+            // 
+            nudCost.Location = new Point(174, 172);
+            nudCost.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
+            nudCost.Name = "nudCost";
+            nudCost.Size = new Size(120, 27);
+            nudCost.TabIndex = 4;
+            //nudCost.ValueChanged += this.nudCost_ValueChanged;
+            // 
             // btnSave
-            this.btnSave.Text = "Сохранить";
-            this.btnSave.Location = new System.Drawing.Point(80, 220);
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-
+            // 
+            btnSave.Location = new Point(62, 220);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(93, 38);
+            btnSave.TabIndex = 5;
+            btnSave.Text = "Сохранить";
+            btnSave.Click += btnSave_Click;
+            // 
             // btnCancel
-            this.btnCancel.Text = "Отмена";
-            this.btnCancel.Location = new System.Drawing.Point(200, 220);
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-
+            // 
+            btnCancel.Location = new Point(240, 220);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(94, 38);
+            btnCancel.TabIndex = 6;
+            btnCancel.Text = "Отмена";
+            btnCancel.Click += btnCancel_Click;
+            // 
+            // lblName
+            // 
+            lblName.Location = new Point(20, 22);
+            lblName.Name = "lblName";
+            lblName.Size = new Size(120, 23);
+            lblName.TabIndex = 7;
+            lblName.Text = "Название:";
+            // 
+            // lblSessions
+            // 
+            lblSessions.Location = new Point(20, 62);
+            lblSessions.Name = "lblSessions";
+            lblSessions.Size = new Size(120, 23);
+            lblSessions.TabIndex = 8;
+            lblSessions.Text = "Кол-во занятий:";
+            // 
+            // lblMonths
+            // 
+            lblMonths.Location = new Point(20, 132);
+            lblMonths.Name = "lblMonths";
+            lblMonths.Size = new Size(169, 23);
+            lblMonths.TabIndex = 9;
+            lblMonths.Text = "Длительность (мес):";
+            // 
+            // lblCost
+            // 
+            lblCost.Location = new Point(20, 172);
+            lblCost.Name = "lblCost";
+            lblCost.Size = new Size(120, 23);
+            lblCost.TabIndex = 10;
+            lblCost.Text = "Цена (руб):";
+            // 
             // PurchaseEditForm
-            this.ClientSize = new System.Drawing.Size(400, 270);
-            this.Controls.Add(this.txtName);
-            this.Controls.Add(this.nudSessions);
-            this.Controls.Add(this.chkUnlimited);
-            this.Controls.Add(this.nudMonths);
-            this.Controls.Add(this.nudCost);
-            this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.lblName);
-            this.Controls.Add(this.lblSessions);
-            this.Controls.Add(this.lblMonths);
-            this.Controls.Add(this.lblCost);
-            this.Name = "PurchaseEditForm";
-            this.Text = "Редактирование абонемента";
-
-            ((System.ComponentModel.ISupportInitialize)(this.nudSessions)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudMonths)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudCost)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            // 
+            ClientSize = new Size(400, 270);
+            Controls.Add(txtName);
+            Controls.Add(nudSessions);
+            Controls.Add(chkUnlimited);
+            Controls.Add(nudMonths);
+            Controls.Add(nudCost);
+            Controls.Add(btnSave);
+            Controls.Add(btnCancel);
+            Controls.Add(lblName);
+            Controls.Add(lblSessions);
+            Controls.Add(lblMonths);
+            Controls.Add(lblCost);
+            Name = "PurchaseEditForm";
+            Text = "Редактирование абонемента";
+            ((System.ComponentModel.ISupportInitialize)nudSessions).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudMonths).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudCost).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
     }
 }

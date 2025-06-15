@@ -18,7 +18,6 @@ namespace TitanApp.Controls
             InitializeComponent();
             _mainForm = mainForm;
 
-            // Выделяем всю строку по клику – пользователю понятнее
             dgvPurchases.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvPurchases.MultiSelect = false;
 
@@ -26,9 +25,6 @@ namespace TitanApp.Controls
             dgvPurchases.ClearSelection();
         }
 
-        // ====================
-        // Загрузка/перезагрузка данных
-        // ====================
         private void LoadData()
         {
             using var db = new AppDbContext();
@@ -39,9 +35,9 @@ namespace TitanApp.Controls
                 {
                     p.Id,
                     Название = p.Name,
-                    Занятий = p.Unlimited ? "∞" : p.SessionsCount.ToString(),
+                    Занятий = p.SessionsCount.ToString(),
                     Безлимит = p.Unlimited,
-                    Месяцев = p.Unlimited ? "∞" : p.DurationMonths.ToString(),
+                    Месяцев = p.DurationMonths.ToString(),
                     Цена = p.Cost.ToString("F2")
                 })
                 .ToList();
@@ -51,9 +47,6 @@ namespace TitanApp.Controls
             dgvPurchases.ClearSelection();
         }
 
-        // ====================
-        // Добавление
-        // ====================
         private void btnAdd_Click(object sender, EventArgs e)
         {
             using var form = new PurchaseEditForm();
@@ -64,9 +57,6 @@ namespace TitanApp.Controls
             }
         }
 
-        // ====================
-        // Редактирование
-        // ====================
         private void btnEdit_Click(object sender, EventArgs e)
         {
             if (dgvPurchases.CurrentRow == null)
@@ -89,10 +79,6 @@ namespace TitanApp.Controls
                 _mainForm.UpdateNotification("Абонемент отредактирован.");
             }
         }
-
-        // ====================
-        // Удаление
-        // ====================
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (dgvPurchases.CurrentRow == null)
@@ -118,10 +104,6 @@ namespace TitanApp.Controls
             LoadData();
             _mainForm.UpdateNotification("Абонемент удалён.");
         }
-
-        // ====================
-        // Вспомогательный метод – может понадобиться во внешних отчётах
-        // ====================
         public static string FormatSubscriptionEndDate(DateTime date) =>
             date.ToString("dd.MM.yyyy", CultureInfo.InvariantCulture);
     }
