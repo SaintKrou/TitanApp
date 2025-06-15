@@ -1,15 +1,20 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TitanApp.Controls;
+using TitanApp.Data;
 using TitanApp.Models;
+using TitanApp.Services;   //  <-- сервис фоновой синхронизации
 
 namespace TitanApp
 {
     public partial class MainForm : Form
     {
+        private readonly ApiSyncService _syncService = new();          // сервис отправки на API
         private ContextMenuStrip? _tabContextMenu;
         private TabPage? _rightClickedTab;
         private System.Windows.Forms.Timer _networkTimer;
@@ -17,7 +22,7 @@ namespace TitanApp
         private readonly string logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "activity.log.txt");
         private ClientListControl? _clientListControl;
 
-        // Инициализируем событие пустым делегатом, чтобы избежать NullReferenceException
+        // Событие изменения клиентов.
         public event EventHandler ClientsDataChanged = delegate { };
 
         public MainForm()
@@ -26,18 +31,30 @@ namespace TitanApp
             InitUI();
             InitializeContextMenu();
 
+            // ---- сетевой индикатор ----
             _networkTimer = new System.Windows.Forms.Timer();
             _networkTimer.Interval = 5000;
             _networkTimer.Tick += NetworkTimer_Tick;
             _networkTimer.Start();
-
             UpdateNetworkStatus();
+
+            // ---- фоновые загрузка и синхронизация ----
+            _syncService.StatusChanged += UpdateNotification;           // выводим сообщения в lblNotifications
+            _syncService.HostStatusChanged += UpdateHostStatus;          // выводим статус хоста в lblHostStatus
+            _syncService.TelegramStatusChanged += UpdateTelegramStatus;  // выводим статус Telegram в lblTelegramStatus
+
+            LoadClientsAndSync();                                         // первая попытка отправки
         }
 
-        private void InitUI()
+        // Подгружаем клиентов из локальной БД и запускаем отправку
+        private void LoadClientsAndSync()
         {
-            ShowClientsTab();
+            using var db = new AppDbContext();
+            List<Client> clients = db.Clients.ToList();
+            _syncService.TriggerSync(clients);
         }
+
+        private void InitUI() => ShowClientsTab();
 
         public void ShowClientsTab()
         {
@@ -72,31 +89,13 @@ namespace TitanApp
             tabControlMain.SelectedTab = tabPage;
         }
 
-        private void btnClients_Click(object? sender, EventArgs e)
-        {
-            ShowClientsTab();
-        }
+        private void btnClients_Click(object? sender, EventArgs e) => ShowClientsTab();
+        private void btnPurchases_Click(object? sender, EventArgs e) => OpenTab("Покупки", new PurchaseControl(this));
+        private void btnLogs_Click(object? sender, EventArgs e) => OpenTab("Журнал", new LogControl(logFile));
+        private void btnReport_Click(object? sender, EventArgs e) => OpenTab("Отчёт по абонементам", new SubscriptionReportControl());
+        private void btnExit_Click(object? sender, EventArgs e) => Close();
 
-        private void btnPurchases_Click(object? sender, EventArgs e)
-        {
-            OpenTab("Покупки", new PurchaseControl(this));
-        }
-
-        private void btnLogs_Click(object? sender, EventArgs e)
-        {
-            OpenTab("Журнал", new LogControl(logFile));
-        }
-
-        private void btnReport_Click(object? sender, EventArgs e)
-        {
-            OpenTab("Отчёт по абонементам", new SubscriptionReportControl());
-        }
-
-        private void btnExit_Click(object? sender, EventArgs e)
-        {
-            Close();
-        }
-
+        // ---------------- контекстное меню вкладок ----------------
         private void InitializeContextMenu()
         {
             _tabContextMenu = new ContextMenuStrip();
@@ -105,9 +104,7 @@ namespace TitanApp
             closeTabItem.Click += (s, e) =>
             {
                 if (_rightClickedTab != null && _rightClickedTab.Text != "Клиенты")
-                {
                     tabControlMain.TabPages.Remove(_rightClickedTab);
-                }
             };
 
             var closeAllItem = new ToolStripMenuItem("Закрыть все");
@@ -117,15 +114,12 @@ namespace TitanApp
                 {
                     var tab = tabControlMain.TabPages[i];
                     if (tab.Text != "Клиенты")
-                    {
                         tabControlMain.TabPages.RemoveAt(i);
-                    }
                 }
             };
 
             _tabContextMenu.Items.Add(closeTabItem);
             _tabContextMenu.Items.Add(closeAllItem);
-
             tabControlMain.MouseUp += TabControlMain_MouseUp;
         }
 
@@ -146,62 +140,59 @@ namespace TitanApp
             }
         }
 
-        private void NetworkTimer_Tick(object? sender, EventArgs e)
-        {
-            UpdateNetworkStatus();
-        }
+        // ---------------- индикатор сети ----------------
+        private void NetworkTimer_Tick(object? sender, EventArgs e) => UpdateNetworkStatus();
 
         private async void UpdateNetworkStatus()
         {
             string quality = await GetConnectionQualityAsync();
-            if (this.InvokeRequired)
-            {
-                this.Invoke((MethodInvoker)(() => lblNetworkStatus.Text = $"Сеть: {quality}"));
-            }
+            if (InvokeRequired)
+                Invoke((MethodInvoker)(() => lblNetworkStatus.Text = $"Сеть: {quality}"));
             else
-            {
                 lblNetworkStatus.Text = $"Сеть: {quality}";
-            }
         }
 
         private async Task<string> GetConnectionQualityAsync()
         {
             try
             {
-                using (var ping = new Ping())
-                {
-                    var reply = await ping.SendPingAsync("8.8.8.8", 1000);
-                    if (reply.Status == IPStatus.Success)
-                    {
-                        long rtt = reply.RoundtripTime;
-                        if (rtt < 80) return "Отличное";
-                        else if (rtt < 200) return "Хорошее";
-                        else if (rtt < 300) return "Среднее";
-                        else if (rtt < 400) return "Ниже среднего";
-                        else return "Плохое";
-                    }
-                    else
-                    {
-                        return "Отсутствует";
-                    }
-                }
+                using var ping = new Ping();
+                var reply = await ping.SendPingAsync("8.8.8.8", 1000);
+                if (reply.Status != IPStatus.Success) return "Отсутствует";
+
+                long rtt = reply.RoundtripTime;
+                return rtt < 80 ? "Отличное"
+                     : rtt < 200 ? "Хорошее"
+                     : rtt < 300 ? "Среднее"
+                     : rtt < 400 ? "Ниже среднего"
+                     : "Плохое";
             }
-            catch
-            {
-                return "Отсутствует";
-            }
+            catch { return "Отсутствует"; }
         }
 
+        // ---------------- статус-бар и лог ----------------
         public void UpdateNotification(string message)
         {
-            if (this.InvokeRequired)
-            {
-                this.Invoke((MethodInvoker)(() => lblNotifications.Text = message));
-            }
+            if (InvokeRequired)
+                Invoke((MethodInvoker)(() => lblNotifications.Text = message));
             else
-            {
                 lblNotifications.Text = message;
-            }
+        }
+
+        public void UpdateHostStatus(string message)
+        {
+            /*if (InvokeRequired)
+                Invoke((MethodInvoker)(() => lblHostStatus.Text = message));
+            else
+                lblHostStatus.Text = message;*/
+        }
+
+        public void UpdateTelegramStatus(string message)
+        {
+            /*if (InvokeRequired)
+                Invoke((MethodInvoker)(() => lblTelegramStatus.Text = message));
+            else
+                lblTelegramStatus.Text = message;*/
         }
 
         public void AddLog(string message)
@@ -216,10 +207,11 @@ namespace TitanApp
                 MessageBox.Show($"Ошибка при записи лога: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        
-        // Метод для уведомления подписчиков о изменении данных клиентов
+
+        // Вызывается контролами после изменения клиентов
         public void NotifyClientsDataChanged()
         {
+            LoadClientsAndSync();                // повторяем отправку
             ClientsDataChanged?.Invoke(this, EventArgs.Empty);
         }
     }

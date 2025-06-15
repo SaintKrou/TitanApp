@@ -11,108 +11,145 @@
         private System.Windows.Forms.Button btnReport;
         private System.Windows.Forms.Label lblNetworkStatus;
         private System.Windows.Forms.Label lblNotifications;
+        private System.Windows.Forms.Label lblTelegramStatus;
 
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
-            {
                 components.Dispose();
-            }
             base.Dispose(disposing);
         }
 
         private void InitializeComponent()
         {
-            this.tabControlMain = new System.Windows.Forms.TabControl();
-            this.btnClients = new System.Windows.Forms.Button();
-            this.btnPurchases = new System.Windows.Forms.Button();
-            this.btnLogs = new System.Windows.Forms.Button();
-            this.btnExit = new System.Windows.Forms.Button();
-            this.btnReport = new System.Windows.Forms.Button();
-            this.lblNetworkStatus = new System.Windows.Forms.Label();
-            this.lblNotifications = new System.Windows.Forms.Label();
-            this.SuspendLayout();
-
+            tabControlMain = new TabControl();
+            btnClients = new Button();
+            btnPurchases = new Button();
+            btnLogs = new Button();
+            btnReport = new Button();
+            btnExit = new Button();
+            lblNetworkStatus = new Label();
+            lblNotifications = new Label();
+            lblTelegramStatus = new Label();
+            SuspendLayout();
+            // 
             // tabControlMain
-            this.tabControlMain.Location = new System.Drawing.Point(12, 50);
-            this.tabControlMain.Name = "tabControlMain";
-            this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(960, 600);
-            this.tabControlMain.TabIndex = 0;
-
+            // 
+            tabControlMain.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            tabControlMain.Location = new Point(14, 67);
+            tabControlMain.Margin = new Padding(3, 4, 3, 4);
+            tabControlMain.Name = "tabControlMain";
+            tabControlMain.SelectedIndex = 0;
+            tabControlMain.Size = new Size(1097, 787);
+            tabControlMain.TabIndex = 0;
+            // 
             // btnClients
-            this.btnClients.Location = new System.Drawing.Point(12, 12);
-            this.btnClients.Name = "btnClients";
-            this.btnClients.Size = new System.Drawing.Size(90, 30);
-            this.btnClients.Text = "Клиенты";
-            this.btnClients.UseVisualStyleBackColor = true;
-            this.btnClients.Click += new System.EventHandler(this.btnClients_Click);
-
+            // 
+            btnClients.Location = new Point(14, 16);
+            btnClients.Margin = new Padding(3, 4, 3, 4);
+            btnClients.Name = "btnClients";
+            btnClients.Size = new Size(103, 40);
+            btnClients.TabIndex = 1;
+            btnClients.Text = "Клиенты";
+            btnClients.UseVisualStyleBackColor = true;
+            btnClients.Click += btnClients_Click;
+            // 
             // btnPurchases
-            this.btnPurchases.Location = new System.Drawing.Point(108, 12);
-            this.btnPurchases.Name = "btnPurchases";
-            this.btnPurchases.Size = new System.Drawing.Size(90, 30);
-            this.btnPurchases.Text = "Покупки";
-            this.btnPurchases.UseVisualStyleBackColor = true;
-            this.btnPurchases.Click += new System.EventHandler(this.btnPurchases_Click);
-
+            // 
+            btnPurchases.Location = new Point(123, 16);
+            btnPurchases.Margin = new Padding(3, 4, 3, 4);
+            btnPurchases.Name = "btnPurchases";
+            btnPurchases.Size = new Size(103, 40);
+            btnPurchases.TabIndex = 2;
+            btnPurchases.Text = "Покупки";
+            btnPurchases.UseVisualStyleBackColor = true;
+            btnPurchases.Click += btnPurchases_Click;
+            // 
             // btnLogs
-            this.btnLogs.Location = new System.Drawing.Point(204, 12);
-            this.btnLogs.Name = "btnLogs";
-            this.btnLogs.Size = new System.Drawing.Size(90, 30);
-            this.btnLogs.Text = "Журнал";
-            this.btnLogs.UseVisualStyleBackColor = true;
-            this.btnLogs.Click += new System.EventHandler(this.btnLogs_Click);
-
+            // 
+            btnLogs.Location = new Point(233, 16);
+            btnLogs.Margin = new Padding(3, 4, 3, 4);
+            btnLogs.Name = "btnLogs";
+            btnLogs.Size = new Size(103, 40);
+            btnLogs.TabIndex = 3;
+            btnLogs.Text = "Журнал";
+            btnLogs.UseVisualStyleBackColor = true;
+            btnLogs.Click += btnLogs_Click;
+            // 
             // btnReport
-            this.btnReport.Location = new System.Drawing.Point(300, 12);
-            this.btnReport.Name = "btnReport";
-            this.btnReport.Size = new System.Drawing.Size(130, 30);
-            this.btnReport.Text = "Отчёт по абонементам";
-            this.btnReport.UseVisualStyleBackColor = true;
-            this.btnReport.Click += new System.EventHandler(this.btnReport_Click);
-
+            // 
+            btnReport.Location = new Point(343, 16);
+            btnReport.Margin = new Padding(3, 4, 3, 4);
+            btnReport.Name = "btnReport";
+            btnReport.Size = new Size(183, 40);
+            btnReport.TabIndex = 4;
+            btnReport.Text = "Отчёт по абонементам";
+            btnReport.UseVisualStyleBackColor = true;
+            btnReport.Click += btnReport_Click;
+            // 
             // btnExit
-            this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExit.Location = new System.Drawing.Point(882, 12);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(90, 30);
-            this.btnExit.Text = "Выход";
-            this.btnExit.UseVisualStyleBackColor = true;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
-
+            // 
+            btnExit.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnExit.Location = new Point(1008, 16);
+            btnExit.Margin = new Padding(3, 4, 3, 4);
+            btnExit.Name = "btnExit";
+            btnExit.Size = new Size(103, 40);
+            btnExit.TabIndex = 5;
+            btnExit.Text = "Выход";
+            btnExit.UseVisualStyleBackColor = true;
+            btnExit.Click += btnExit_Click;
+            // 
             // lblNetworkStatus
-            this.lblNetworkStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblNetworkStatus.AutoSize = true;
-            this.lblNetworkStatus.Location = new System.Drawing.Point(12, 655);
-            this.lblNetworkStatus.Name = "lblNetworkStatus";
-            this.lblNetworkStatus.Size = new System.Drawing.Size(87, 15);
-            this.lblNetworkStatus.Text = "Сеть: неизвестно";
-
+            // 
+            lblNetworkStatus.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            lblNetworkStatus.AutoSize = true;
+            lblNetworkStatus.Location = new Point(14, 867);
+            lblNetworkStatus.Name = "lblNetworkStatus";
+            lblNetworkStatus.Size = new Size(127, 20);
+            lblNetworkStatus.TabIndex = 6;
+            lblNetworkStatus.Text = "Сеть: неизвестно";
+            // 
             // lblNotifications
-            this.lblNotifications.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblNotifications.AutoSize = true;
-            this.lblNotifications.Location = new System.Drawing.Point(780, 655);
-            this.lblNotifications.Name = "lblNotifications";
-            this.lblNotifications.Size = new System.Drawing.Size(192, 15);
-            this.lblNotifications.Text = "Уведомления: всё работает нормально";
-
+            // 
+            lblNotifications.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            lblNotifications.AutoSize = true;
+            lblNotifications.Location = new Point(671, 867);
+            lblNotifications.Name = "lblNotifications";
+            lblNotifications.Size = new Size(285, 20);
+            lblNotifications.TabIndex = 9;
+            lblNotifications.Text = "Уведомления: всё работает нормально";
+            // 
+            // lblTelegramStatus
+            // 
+            lblTelegramStatus.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            lblTelegramStatus.AutoSize = true;
+            lblTelegramStatus.Location = new Point(275, 867);
+            lblTelegramStatus.Name = "lblTelegramStatus";
+            lblTelegramStatus.Size = new Size(251, 20);
+            lblTelegramStatus.TabIndex = 8;
+            lblTelegramStatus.Text = "Telegram: запуск и инициализация";
+            // 
             // MainForm
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 681);
-            this.Controls.Add(this.lblNotifications);
-            this.Controls.Add(this.lblNetworkStatus);
-            this.Controls.Add(this.btnExit);
-            this.Controls.Add(this.btnReport);
-            this.Controls.Add(this.btnLogs);
-            this.Controls.Add(this.btnPurchases);
-            this.Controls.Add(this.btnClients);
-            this.Controls.Add(this.tabControlMain);
-            this.Name = "MainForm";
-            this.Text = "TitanApp";
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1125, 908);
+            Controls.Add(lblTelegramStatus);
+            Controls.Add(lblNotifications);
+            Controls.Add(lblNetworkStatus);
+            Controls.Add(btnExit);
+            Controls.Add(btnReport);
+            Controls.Add(btnLogs);
+            Controls.Add(btnPurchases);
+            Controls.Add(btnClients);
+            Controls.Add(tabControlMain);
+            Margin = new Padding(3, 4, 3, 4);
+            MinimumSize = new Size(1140, 944);
+            Name = "MainForm";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "TitanApp";
+            ResumeLayout(false);
+            PerformLayout();
         }
     }
 }

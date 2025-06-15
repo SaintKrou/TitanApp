@@ -9,7 +9,6 @@
         private System.Windows.Forms.Button btnDeleteClient;
         private System.Windows.Forms.Button btnMarkAttendance;
         private System.Windows.Forms.Button btnApplySubscription;
-        private System.Windows.Forms.Button btnManagePurchases;
 
         protected override void Dispose(bool disposing)
         {
@@ -22,120 +21,96 @@
 
         private void InitializeComponent()
         {
-            this.dgvClients = new System.Windows.Forms.DataGridView();
-            this.btnAddClient = new System.Windows.Forms.Button();
-            this.btnEditClient = new System.Windows.Forms.Button();
-            this.btnDeleteClient = new System.Windows.Forms.Button();
-            this.btnMarkAttendance = new System.Windows.Forms.Button();
-            this.btnApplySubscription = new System.Windows.Forms.Button();
-            this.btnManagePurchases = new System.Windows.Forms.Button();
-
-
-            ((System.ComponentModel.ISupportInitialize)(this.dgvClients)).BeginInit();
-            this.SuspendLayout();
-
+            dgvClients = new DataGridView();
+            btnAddClient = new Button();
+            btnEditClient = new Button();
+            btnDeleteClient = new Button();
+            btnMarkAttendance = new Button();
+            btnApplySubscription = new Button();
+            ((System.ComponentModel.ISupportInitialize)dgvClients).BeginInit();
+            SuspendLayout();
             // 
             // dgvClients
             // 
-            this.dgvClients.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                            | System.Windows.Forms.AnchorStyles.Left)
-                            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvClients.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvClients.Location = new System.Drawing.Point(10, 10);
-            this.dgvClients.MultiSelect = false;
-            this.dgvClients.Name = "dgvClients";
-            this.dgvClients.ReadOnly = true;
-            this.dgvClients.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvClients.Size = new System.Drawing.Size(760, 350);
-            this.dgvClients.TabIndex = 0;
-
+            dgvClients.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvClients.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvClients.Location = new Point(10, 10);
+            dgvClients.MultiSelect = false;
+            dgvClients.Name = "dgvClients";
+            dgvClients.ReadOnly = true;
+            dgvClients.RowHeadersWidth = 51;
+            dgvClients.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvClients.Size = new Size(760, 350);
+            dgvClients.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvClients.TabIndex = 0;
             // 
             // btnAddClient
             // 
-            this.btnAddClient.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            this.btnAddClient.Location = new System.Drawing.Point(10, 370);
-            this.btnAddClient.Name = "btnAddClient";
-            this.btnAddClient.Size = new System.Drawing.Size(110, 30);
-            this.btnAddClient.TabIndex = 1;
-            this.btnAddClient.Text = "Добавить";
-            this.btnAddClient.UseVisualStyleBackColor = true;
-            this.btnAddClient.Click += new System.EventHandler(this.btnAddClient_Click);
-
+            btnAddClient.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnAddClient.Location = new Point(10, 370);
+            btnAddClient.Name = "btnAddClient";
+            btnAddClient.Size = new Size(110, 30);
+            btnAddClient.TabIndex = 1;
+            btnAddClient.Text = "Добавить";
+            btnAddClient.UseVisualStyleBackColor = true;
+            btnAddClient.Click += btnAddClient_Click;
             // 
             // btnEditClient
             // 
-            this.btnEditClient.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            this.btnEditClient.Location = new System.Drawing.Point(130, 370);
-            this.btnEditClient.Name = "btnEditClient";
-            this.btnEditClient.Size = new System.Drawing.Size(110, 30);
-            this.btnEditClient.TabIndex = 2;
-            this.btnEditClient.Text = "Редактировать";
-            this.btnEditClient.UseVisualStyleBackColor = true;
-            this.btnEditClient.Click += new System.EventHandler(this.btnEditClient_Click);
-
+            btnEditClient.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnEditClient.Location = new Point(130, 370);
+            btnEditClient.Name = "btnEditClient";
+            btnEditClient.Size = new Size(132, 30);
+            btnEditClient.TabIndex = 2;
+            btnEditClient.Text = "Редактировать";
+            btnEditClient.UseVisualStyleBackColor = true;
+            btnEditClient.Click += btnEditClient_Click;
             // 
             // btnDeleteClient
             // 
-            this.btnDeleteClient.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            this.btnDeleteClient.Location = new System.Drawing.Point(250, 370);
-            this.btnDeleteClient.Name = "btnDeleteClient";
-            this.btnDeleteClient.Size = new System.Drawing.Size(110, 30);
-            this.btnDeleteClient.TabIndex = 3;
-            this.btnDeleteClient.Text = "Удалить";
-            this.btnDeleteClient.UseVisualStyleBackColor = true;
-            this.btnDeleteClient.Click += new System.EventHandler(this.btnDeleteClient_Click);
-
+            btnDeleteClient.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnDeleteClient.Location = new Point(268, 370);
+            btnDeleteClient.Name = "btnDeleteClient";
+            btnDeleteClient.Size = new Size(110, 30);
+            btnDeleteClient.TabIndex = 3;
+            btnDeleteClient.Text = "Удалить";
+            btnDeleteClient.UseVisualStyleBackColor = true;
+            btnDeleteClient.Click += btnDeleteClient_Click;
             // 
             // btnMarkAttendance
             // 
-            this.btnMarkAttendance.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            this.btnMarkAttendance.Location = new System.Drawing.Point(370, 370);
-            this.btnMarkAttendance.Name = "btnMarkAttendance";
-            this.btnMarkAttendance.Size = new System.Drawing.Size(110, 30);
-            this.btnMarkAttendance.TabIndex = 4;
-            this.btnMarkAttendance.Text = "Отметить посещение";
-            this.btnMarkAttendance.UseVisualStyleBackColor = true;
-            this.btnMarkAttendance.Click += new System.EventHandler(this.btnMarkAttendance_Click);
-
+            btnMarkAttendance.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnMarkAttendance.Location = new Point(409, 370);
+            btnMarkAttendance.Name = "btnMarkAttendance";
+            btnMarkAttendance.Size = new Size(169, 30);
+            btnMarkAttendance.TabIndex = 4;
+            btnMarkAttendance.Text = "Отметить посещение";
+            btnMarkAttendance.UseVisualStyleBackColor = true;
+            btnMarkAttendance.Click += btnMarkAttendance_Click;
             // 
             // btnApplySubscription
             // 
-            this.btnApplySubscription.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            this.btnApplySubscription.Location = new System.Drawing.Point(490, 370);
-            this.btnApplySubscription.Name = "btnApplySubscription";
-            this.btnApplySubscription.Size = new System.Drawing.Size(140, 30);
-            this.btnApplySubscription.TabIndex = 5;
-            this.btnApplySubscription.Text = "Применить абонемент";
-            this.btnApplySubscription.UseVisualStyleBackColor = true;
-            this.btnApplySubscription.Click += new System.EventHandler(this.btnApplySubscription_Click);
-
-            // 
-            // btnManagePurchases
-            // 
-            this.btnManagePurchases.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
-            this.btnManagePurchases.Location = new System.Drawing.Point(640, 370);
-            this.btnManagePurchases.Name = "btnManagePurchases";
-            this.btnManagePurchases.Size = new System.Drawing.Size(130, 30);
-            this.btnManagePurchases.TabIndex = 6;
-            this.btnManagePurchases.Text = "Управление покупками";
-            this.btnManagePurchases.UseVisualStyleBackColor = true;
-            this.btnManagePurchases.Click += new System.EventHandler(this.btnManagePurchases_Click);
-
+            btnApplySubscription.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            btnApplySubscription.Location = new Point(584, 370);
+            btnApplySubscription.Name = "btnApplySubscription";
+            btnApplySubscription.Size = new Size(186, 30);
+            btnApplySubscription.TabIndex = 5;
+            btnApplySubscription.Text = "Применить абонемент";
+            btnApplySubscription.UseVisualStyleBackColor = true;
+            btnApplySubscription.Click += btnApplySubscription_Click;
             // 
             // ClientListControl
             // 
-            this.Controls.Add(this.dgvClients);
-            this.Controls.Add(this.btnAddClient);
-            this.Controls.Add(this.btnEditClient);
-            this.Controls.Add(this.btnDeleteClient);
-            this.Controls.Add(this.btnMarkAttendance);
-            this.Controls.Add(this.btnApplySubscription);
-            this.Controls.Add(this.btnManagePurchases);
-            this.Name = "ClientListControl";
-            this.Size = new System.Drawing.Size(780, 420);
-
-            ((System.ComponentModel.ISupportInitialize)(this.dgvClients)).EndInit();
-            this.ResumeLayout(false);
+            Controls.Add(dgvClients);
+            Controls.Add(btnAddClient);
+            Controls.Add(btnEditClient);
+            Controls.Add(btnDeleteClient);
+            Controls.Add(btnMarkAttendance);
+            Controls.Add(btnApplySubscription);
+            Name = "ClientListControl";
+            Size = new Size(780, 420);
+            ((System.ComponentModel.ISupportInitialize)dgvClients).EndInit();
+            ResumeLayout(false);
 
 
         }

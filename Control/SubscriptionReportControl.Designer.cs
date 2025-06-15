@@ -67,7 +67,7 @@
             dtpFrom.Format = DateTimePickerFormat.Short;
             dtpFrom.Location = new Point(8, 8);
             dtpFrom.Name = "dtpFrom";
-            dtpFrom.Size = new Size(120, 23);
+            dtpFrom.Size = new Size(120, 27);
             dtpFrom.TabIndex = 0;
             // 
             // dtpTo
@@ -75,7 +75,7 @@
             dtpTo.Format = DateTimePickerFormat.Short;
             dtpTo.Location = new Point(134, 8);
             dtpTo.Name = "dtpTo";
-            dtpTo.Size = new Size(120, 23);
+            dtpTo.Size = new Size(120, 27);
             dtpTo.TabIndex = 1;
             // 
             // cbPurchase
@@ -83,7 +83,7 @@
             cbPurchase.DropDownStyle = ComboBoxStyle.DropDownList;
             cbPurchase.Location = new Point(260, 8);
             cbPurchase.Name = "cbPurchase";
-            cbPurchase.Size = new Size(160, 23);
+            cbPurchase.Size = new Size(160, 28);
             cbPurchase.TabIndex = 2;
             // 
             // cbPayment
@@ -91,7 +91,7 @@
             cbPayment.DropDownStyle = ComboBoxStyle.DropDownList;
             cbPayment.Location = new Point(426, 8);
             cbPayment.Name = "cbPayment";
-            cbPayment.Size = new Size(160, 23);
+            cbPayment.Size = new Size(160, 28);
             cbPayment.TabIndex = 3;
             // 
             // dgvRecords
@@ -125,7 +125,7 @@
             lblSummary.Dock = DockStyle.Left;
             lblSummary.Location = new Point(5, 5);
             lblSummary.Name = "lblSummary";
-            lblSummary.Size = new Size(0, 15);
+            lblSummary.Size = new Size(0, 20);
             lblSummary.TabIndex = 0;
             lblSummary.TextAlign = ContentAlignment.MiddleLeft;
             // 

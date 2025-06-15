@@ -8,15 +8,22 @@ namespace TitanApp.Data
         public DbSet<Client> Clients { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
 
-        // DbSet для логов подписок
         public DbSet<SubscriptionLogs> SubscriptionLogs { get; set; }
-
-        // Удобный псевдоним
         public DbSet<SubscriptionLogs> Logs => SubscriptionLogs;
+
+        public AppDbContext() { }
+
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        {
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=titanapp.db");
+            // Только если не передан options
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlite("Data Source=titanapp.db");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -41,7 +48,7 @@ namespace TitanApp.Data
 
             modelBuilder.Entity<SubscriptionLogs>(entity =>
             {
-                entity.ToTable("SubscriptionLogs"); // Явное имя таблицы
+                entity.ToTable("SubscriptionLogs");
 
                 entity.HasKey(s => s.Id);
                 entity.Property(s => s.ClientId).IsRequired();
