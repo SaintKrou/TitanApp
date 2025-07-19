@@ -19,7 +19,6 @@ namespace TitanApp.Controls
             _mainForm = mainForm;
             _db = new AppDbContext();
 
-            // Подписываемся на событие обновления данных
             _mainForm.ClientsDataChanged += (sender, args) => LoadClients();
 
             LoadClients();

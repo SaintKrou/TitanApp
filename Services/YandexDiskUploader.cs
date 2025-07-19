@@ -51,7 +51,6 @@ namespace TitanApp.Services
             {
                 if (_uploadInProgress)
                 {
-                    // Уже идёт процесс — сохраняем как ожидающее задание
                     _pendingFilePath = localFilePath;
                     _pendingRemoteName = remoteFileName;
                     return false;
@@ -114,7 +113,6 @@ namespace TitanApp.Services
                 }
                 else
                 {
-                    // Пробуем снова через минуту
                     _ = Task.Run(async () =>
                     {
                         await Task.Delay(TimeSpan.FromMinutes(1));

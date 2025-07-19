@@ -35,14 +35,13 @@ namespace TitanApp.Controls
             calendar = new MonthCalendar();
             lstAttendanceDates = new ListBox();
             lblAttendanceDates = new Label();
-
             ((System.ComponentModel.ISupportInitialize)dgvClients).BeginInit();
             SuspendLayout();
-
             // 
             // dgvClients
             // 
             dgvClients.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            dgvClients.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvClients.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvClients.Location = new Point(10, 10);
             dgvClients.MultiSelect = false;
@@ -51,9 +50,7 @@ namespace TitanApp.Controls
             dgvClients.RowHeadersWidth = 51;
             dgvClients.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvClients.Size = new Size(760, 350);
-            dgvClients.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvClients.TabIndex = 0;
-
             // 
             // btnAddClient
             // 
@@ -65,7 +62,6 @@ namespace TitanApp.Controls
             btnAddClient.Text = "Добавить";
             btnAddClient.UseVisualStyleBackColor = true;
             btnAddClient.Click += btnAddClient_Click;
-
             // 
             // btnEditClient
             // 
@@ -77,7 +73,6 @@ namespace TitanApp.Controls
             btnEditClient.Text = "Редактировать";
             btnEditClient.UseVisualStyleBackColor = true;
             btnEditClient.Click += btnEditClient_Click;
-
             // 
             // btnDeleteClient
             // 
@@ -89,7 +84,6 @@ namespace TitanApp.Controls
             btnDeleteClient.Text = "Удалить";
             btnDeleteClient.UseVisualStyleBackColor = true;
             btnDeleteClient.Click += btnDeleteClient_Click;
-
             // 
             // btnMarkAttendance
             // 
@@ -101,7 +95,6 @@ namespace TitanApp.Controls
             btnMarkAttendance.Text = "Отметить посещение";
             btnMarkAttendance.UseVisualStyleBackColor = true;
             btnMarkAttendance.Click += btnMarkAttendance_Click;
-
             // 
             // btnApplySubscription
             // 
@@ -113,7 +106,6 @@ namespace TitanApp.Controls
             btnApplySubscription.Text = "Применить абонемент";
             btnApplySubscription.UseVisualStyleBackColor = true;
             btnApplySubscription.Click += btnApplySubscription_Click;
-
             // 
             // calendar
             // 
@@ -121,7 +113,14 @@ namespace TitanApp.Controls
             calendar.Location = new Point(780, 10);
             calendar.Name = "calendar";
             calendar.TabIndex = 6;
-
+            // 
+            // lstAttendanceDates
+            // 
+            lstAttendanceDates.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            lstAttendanceDates.Location = new Point(780, 215);
+            lstAttendanceDates.Name = "lstAttendanceDates";
+            lstAttendanceDates.Size = new Size(192, 164);
+            lstAttendanceDates.TabIndex = 7;
             // 
             // lblAttendanceDates
             // 
@@ -129,17 +128,8 @@ namespace TitanApp.Controls
             lblAttendanceDates.Location = new Point(780, 190);
             lblAttendanceDates.Name = "lblAttendanceDates";
             lblAttendanceDates.Size = new Size(200, 23);
+            lblAttendanceDates.TabIndex = 7;
             lblAttendanceDates.Text = "Даты посещений:";
-
-            // 
-            // lstAttendanceDates
-            // 
-            lstAttendanceDates.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            lstAttendanceDates.Location = new Point(780, 215);
-            lstAttendanceDates.Name = "lstAttendanceDates";
-            lstAttendanceDates.Size = new Size(200, 180);
-            lstAttendanceDates.TabIndex = 7;
-
             // 
             // ClientListControl
             // 

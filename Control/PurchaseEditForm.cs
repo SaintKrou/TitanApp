@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using TitanApp.Models;
-using TitanApp.Data; // Добавьте пространство имен с вашим контекстом БД
+using TitanApp.Data;
 
 namespace TitanApp.Controls
 {

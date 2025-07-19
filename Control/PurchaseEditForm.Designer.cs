@@ -54,16 +54,14 @@
             nudSessions.Name = "nudSessions";
             nudSessions.Size = new Size(120, 27);
             nudSessions.TabIndex = 1;
-            //nudSessions.ValueChanged += this.nudSessions_ValueChanged;
             // 
             // chkUnlimited
             // 
             chkUnlimited.Location = new Point(174, 97);
             chkUnlimited.Name = "chkUnlimited";
-            chkUnlimited.Size = new Size(120, 24);
+            chkUnlimited.Size = new Size(137, 24);
             chkUnlimited.TabIndex = 2;
             chkUnlimited.Text = "Безлимитный";
-            //chkUnlimited.CheckedChanged += this.chkUnlimited_CheckedChanged;
             // 
             // nudMonths
             // 
@@ -74,7 +72,6 @@
             nudMonths.Size = new Size(120, 27);
             nudMonths.TabIndex = 3;
             nudMonths.Value = new decimal(new int[] { 1, 0, 0, 0 });
-            //nudMonths.ValueChanged += this.nudMonths_ValueChanged;
             // 
             // nudCost
             // 
@@ -83,7 +80,6 @@
             nudCost.Name = "nudCost";
             nudCost.Size = new Size(120, 27);
             nudCost.TabIndex = 4;
-            //nudCost.ValueChanged += this.nudCost_ValueChanged;
             // 
             // btnSave
             // 

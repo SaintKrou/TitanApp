@@ -19,7 +19,6 @@ namespace TitanApp.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // Только если не передан options
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlite("Data Source=titanapp.db");

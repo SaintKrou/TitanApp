@@ -39,12 +39,10 @@ namespace TitanApp.Controls
             }
             catch (SqliteException)
             {
-                // Таблица Purchases не найдена — оставим "Все"
             }
 
             cbPurchase.SelectedIndex = 0;
 
-            // Заполняем фильтр способа оплаты вручную
             cbPayment.Items.Clear();
             cbPayment.Items.Add("Все");
             cbPayment.Items.Add("Наличные");
