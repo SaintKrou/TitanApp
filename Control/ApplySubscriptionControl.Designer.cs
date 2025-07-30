@@ -29,183 +29,188 @@
 
     private void InitializeComponent()
     {
-        this.lblClientInfo = new System.Windows.Forms.Label();
-        this.lblSubscription = new System.Windows.Forms.Label();
-        this.comboBoxSubscriptions = new System.Windows.Forms.ComboBox();
-        this.lblPayment = new System.Windows.Forms.Label();
-        this.comboBoxPayment = new System.Windows.Forms.ComboBox();
-        this.lblPrice = new System.Windows.Forms.Label();
-        this.lblPriceVal = new System.Windows.Forms.Label();
-        this.lblDuration = new System.Windows.Forms.Label();
-        this.lblDurationVal = new System.Windows.Forms.Label();
-        this.lblSessions = new System.Windows.Forms.Label();
-        this.lblSessionsVal = new System.Windows.Forms.Label();
-        this.lblEndDate = new System.Windows.Forms.Label();
-        this.lblEndDateVal = new System.Windows.Forms.Label();
-        this.btnApply = new System.Windows.Forms.Button();
-        this.btnApplyAndMark = new System.Windows.Forms.Button();
-        this.SuspendLayout();
+        lblClientInfo = new Label();
+        lblSubscription = new Label();
+        comboBoxSubscriptions = new ComboBox();
+        lblPayment = new Label();
+        comboBoxPayment = new ComboBox();
+        lblPrice = new Label();
+        lblPriceVal = new Label();
+        lblDuration = new Label();
+        lblDurationVal = new Label();
+        lblSessions = new Label();
+        lblSessionsVal = new Label();
+        lblEndDate = new Label();
+        lblEndDateVal = new Label();
+        btnApply = new Button();
+        btnApplyAndMark = new Button();
+        SuspendLayout();
         // 
         // lblClientInfo
         // 
-        this.lblClientInfo.AutoSize = true;
-        this.lblClientInfo.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-        this.lblClientInfo.Location = new System.Drawing.Point(20, 15);
-        this.lblClientInfo.Name = "lblClientInfo";
-        this.lblClientInfo.Size = new System.Drawing.Size(160, 19);
-        this.lblClientInfo.TabIndex = 0;
-        this.lblClientInfo.Text = "ID: 0, Фамилия: ----";
+        lblClientInfo.AutoSize = true;
+        lblClientInfo.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+        lblClientInfo.Location = new Point(23, 20);
+        lblClientInfo.Name = "lblClientInfo";
+        lblClientInfo.Size = new Size(174, 23);
+        lblClientInfo.TabIndex = 0;
+        lblClientInfo.Text = "ID: 0, Фамилия: ----";
         // 
         // lblSubscription
         // 
-        this.lblSubscription.AutoSize = true;
-        this.lblSubscription.Location = new System.Drawing.Point(20, 50);
-        this.lblSubscription.Name = "lblSubscription";
-        this.lblSubscription.Size = new System.Drawing.Size(70, 15);
-        this.lblSubscription.TabIndex = 1;
-        this.lblSubscription.Text = "Абонемент:";
+        lblSubscription.AutoSize = true;
+        lblSubscription.Location = new Point(23, 67);
+        lblSubscription.Name = "lblSubscription";
+        lblSubscription.Size = new Size(91, 20);
+        lblSubscription.TabIndex = 1;
+        lblSubscription.Text = "Абонемент:";
         // 
         // comboBoxSubscriptions
         // 
-        this.comboBoxSubscriptions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-        this.comboBoxSubscriptions.FormattingEnabled = true;
-        this.comboBoxSubscriptions.Location = new System.Drawing.Point(140, 46);
-        this.comboBoxSubscriptions.Name = "comboBoxSubscriptions";
-        this.comboBoxSubscriptions.Size = new System.Drawing.Size(250, 23);
-        this.comboBoxSubscriptions.TabIndex = 2;
+        comboBoxSubscriptions.DropDownStyle = ComboBoxStyle.DropDownList;
+        comboBoxSubscriptions.FormattingEnabled = true;
+        comboBoxSubscriptions.Location = new Point(148, 59);
+        comboBoxSubscriptions.Margin = new Padding(3, 4, 3, 4);
+        comboBoxSubscriptions.Name = "comboBoxSubscriptions";
+        comboBoxSubscriptions.Size = new Size(285, 28);
+        comboBoxSubscriptions.TabIndex = 2;
         // 
         // lblPayment
         // 
-        this.lblPayment.AutoSize = true;
-        this.lblPayment.Location = new System.Drawing.Point(20, 85);
-        this.lblPayment.Name = "lblPayment";
-        this.lblPayment.Size = new System.Drawing.Size(92, 15);
-        this.lblPayment.TabIndex = 3;
-        this.lblPayment.Text = "Способ оплаты:";
+        lblPayment.AutoSize = true;
+        lblPayment.Location = new Point(23, 113);
+        lblPayment.Name = "lblPayment";
+        lblPayment.Size = new Size(119, 20);
+        lblPayment.TabIndex = 3;
+        lblPayment.Text = "Способ оплаты:";
         // 
         // comboBoxPayment
         // 
-        this.comboBoxPayment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-        this.comboBoxPayment.FormattingEnabled = true;
-        this.comboBoxPayment.Location = new System.Drawing.Point(140, 81);
-        this.comboBoxPayment.Name = "comboBoxPayment";
-        this.comboBoxPayment.Size = new System.Drawing.Size(250, 23);
-        this.comboBoxPayment.TabIndex = 4;
+        comboBoxPayment.DropDownStyle = ComboBoxStyle.DropDownList;
+        comboBoxPayment.FormattingEnabled = true;
+        comboBoxPayment.Location = new Point(148, 110);
+        comboBoxPayment.Margin = new Padding(3, 4, 3, 4);
+        comboBoxPayment.Name = "comboBoxPayment";
+        comboBoxPayment.Size = new Size(285, 28);
+        comboBoxPayment.TabIndex = 4;
         // 
         // lblPrice
         // 
-        this.lblPrice.AutoSize = true;
-        this.lblPrice.Location = new System.Drawing.Point(20, 120);
-        this.lblPrice.Name = "lblPrice";
-        this.lblPrice.Size = new System.Drawing.Size(38, 15);
-        this.lblPrice.TabIndex = 5;
-        this.lblPrice.Text = "Цена:";
+        lblPrice.AutoSize = true;
+        lblPrice.Location = new Point(23, 160);
+        lblPrice.Name = "lblPrice";
+        lblPrice.Size = new Size(48, 20);
+        lblPrice.TabIndex = 5;
+        lblPrice.Text = "Цена:";
         // 
         // lblPriceVal
         // 
-        this.lblPriceVal.AutoSize = true;
-        this.lblPriceVal.Location = new System.Drawing.Point(140, 120);
-        this.lblPriceVal.Name = "lblPriceVal";
-        this.lblPriceVal.Size = new System.Drawing.Size(32, 15);
-        this.lblPriceVal.TabIndex = 6;
-        this.lblPriceVal.Text = "0.00";
+        lblPriceVal.AutoSize = true;
+        lblPriceVal.Location = new Point(174, 160);
+        lblPriceVal.Name = "lblPriceVal";
+        lblPriceVal.Size = new Size(36, 20);
+        lblPriceVal.TabIndex = 6;
+        lblPriceVal.Text = "0.00";
         // 
         // lblDuration
         // 
-        this.lblDuration.AutoSize = true;
-        this.lblDuration.Location = new System.Drawing.Point(20, 145);
-        this.lblDuration.Name = "lblDuration";
-        this.lblDuration.Size = new System.Drawing.Size(93, 15);
-        this.lblDuration.TabIndex = 7;
-        this.lblDuration.Text = "Длительность:";
+        lblDuration.AutoSize = true;
+        lblDuration.Location = new Point(23, 193);
+        lblDuration.Name = "lblDuration";
+        lblDuration.Size = new Size(108, 20);
+        lblDuration.TabIndex = 7;
+        lblDuration.Text = "Длительность:";
         // 
         // lblDurationVal
         // 
-        this.lblDurationVal.AutoSize = true;
-        this.lblDurationVal.Location = new System.Drawing.Point(140, 145);
-        this.lblDurationVal.Name = "lblDurationVal";
-        this.lblDurationVal.Size = new System.Drawing.Size(11, 15);
-        this.lblDurationVal.TabIndex = 8;
-        this.lblDurationVal.Text = "-";
+        lblDurationVal.AutoSize = true;
+        lblDurationVal.Location = new Point(182, 193);
+        lblDurationVal.Name = "lblDurationVal";
+        lblDurationVal.Size = new Size(15, 20);
+        lblDurationVal.TabIndex = 8;
+        lblDurationVal.Text = "-";
         // 
         // lblSessions
         // 
-        this.lblSessions.AutoSize = true;
-        this.lblSessions.Location = new System.Drawing.Point(20, 170);
-        this.lblSessions.Name = "lblSessions";
-        this.lblSessions.Size = new System.Drawing.Size(112, 15);
-        this.lblSessions.TabIndex = 9;
-        this.lblSessions.Text = "Кол-во посещений:";
+        lblSessions.AutoSize = true;
+        lblSessions.Location = new Point(23, 227);
+        lblSessions.Name = "lblSessions";
+        lblSessions.Size = new Size(145, 20);
+        lblSessions.TabIndex = 9;
+        lblSessions.Text = "Кол-во посещений:";
         // 
         // lblSessionsVal
         // 
-        this.lblSessionsVal.AutoSize = true;
-        this.lblSessionsVal.Location = new System.Drawing.Point(140, 170);
-        this.lblSessionsVal.Name = "lblSessionsVal";
-        this.lblSessionsVal.Size = new System.Drawing.Size(11, 15);
-        this.lblSessionsVal.TabIndex = 10;
-        this.lblSessionsVal.Text = "-";
+        lblSessionsVal.AutoSize = true;
+        lblSessionsVal.Location = new Point(182, 227);
+        lblSessionsVal.Name = "lblSessionsVal";
+        lblSessionsVal.Size = new Size(15, 20);
+        lblSessionsVal.TabIndex = 10;
+        lblSessionsVal.Text = "-";
         // 
         // lblEndDate
         // 
-        this.lblEndDate.AutoSize = true;
-        this.lblEndDate.Location = new System.Drawing.Point(20, 195);
-        this.lblEndDate.Name = "lblEndDate";
-        this.lblEndDate.Size = new System.Drawing.Size(114, 15);
-        this.lblEndDate.TabIndex = 11;
-        this.lblEndDate.Text = "Окончание действия:";
+        lblEndDate.AutoSize = true;
+        lblEndDate.Location = new Point(23, 260);
+        lblEndDate.Name = "lblEndDate";
+        lblEndDate.Size = new Size(157, 20);
+        lblEndDate.TabIndex = 11;
+        lblEndDate.Text = "Окончание действия:";
         // 
         // lblEndDateVal
         // 
-        this.lblEndDateVal.AutoSize = true;
-        this.lblEndDateVal.Location = new System.Drawing.Point(140, 195);
-        this.lblEndDateVal.Name = "lblEndDateVal";
-        this.lblEndDateVal.Size = new System.Drawing.Size(11, 15);
-        this.lblEndDateVal.TabIndex = 12;
-        this.lblEndDateVal.Text = "-";
+        lblEndDateVal.AutoSize = true;
+        lblEndDateVal.Location = new Point(182, 260);
+        lblEndDateVal.Name = "lblEndDateVal";
+        lblEndDateVal.Size = new Size(15, 20);
+        lblEndDateVal.TabIndex = 12;
+        lblEndDateVal.Text = "-";
         // 
         // btnApply
         // 
-        this.btnApply.Location = new System.Drawing.Point(20, 230);
-        this.btnApply.Name = "btnApply";
-        this.btnApply.Size = new System.Drawing.Size(150, 30);
-        this.btnApply.TabIndex = 13;
-        this.btnApply.Text = "Применить";
-        this.btnApply.UseVisualStyleBackColor = true;
-        this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
+        btnApply.Location = new Point(23, 307);
+        btnApply.Margin = new Padding(3, 4, 3, 4);
+        btnApply.Name = "btnApply";
+        btnApply.Size = new Size(171, 40);
+        btnApply.TabIndex = 13;
+        btnApply.Text = "Применить";
+        btnApply.UseVisualStyleBackColor = true;
+        btnApply.Click += btnApply_Click;
         // 
         // btnApplyAndMark
         // 
-        this.btnApplyAndMark.Location = new System.Drawing.Point(190, 230);
-        this.btnApplyAndMark.Name = "btnApplyAndMark";
-        this.btnApplyAndMark.Size = new System.Drawing.Size(200, 30);
-        this.btnApplyAndMark.TabIndex = 14;
-        this.btnApplyAndMark.Text = "Применить и отметить";
-        this.btnApplyAndMark.UseVisualStyleBackColor = true;
-        this.btnApplyAndMark.Click += new System.EventHandler(this.btnApplyAndMark_Click);
+        btnApplyAndMark.Location = new Point(217, 307);
+        btnApplyAndMark.Margin = new Padding(3, 4, 3, 4);
+        btnApplyAndMark.Name = "btnApplyAndMark";
+        btnApplyAndMark.Size = new Size(229, 40);
+        btnApplyAndMark.TabIndex = 14;
+        btnApplyAndMark.Text = "Применить и отметить";
+        btnApplyAndMark.UseVisualStyleBackColor = true;
+        btnApplyAndMark.Click += btnApplyAndMark_Click;
         // 
         // ApplySubscriptionControl
         // 
-        this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-        this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.Controls.Add(this.lblClientInfo);
-        this.Controls.Add(this.lblSubscription);
-        this.Controls.Add(this.comboBoxSubscriptions);
-        this.Controls.Add(this.lblPayment);
-        this.Controls.Add(this.comboBoxPayment);
-        this.Controls.Add(this.lblPrice);
-        this.Controls.Add(this.lblPriceVal);
-        this.Controls.Add(this.lblDuration);
-        this.Controls.Add(this.lblDurationVal);
-        this.Controls.Add(this.lblSessions);
-        this.Controls.Add(this.lblSessionsVal);
-        this.Controls.Add(this.lblEndDate);
-        this.Controls.Add(this.lblEndDateVal);
-        this.Controls.Add(this.btnApply);
-        this.Controls.Add(this.btnApplyAndMark);
-        this.Name = "ApplySubscriptionControl";
-        this.Size = new System.Drawing.Size(420, 280);
-        this.ResumeLayout(false);
-        this.PerformLayout();
+        AutoScaleDimensions = new SizeF(8F, 20F);
+        AutoScaleMode = AutoScaleMode.Font;
+        Controls.Add(lblClientInfo);
+        Controls.Add(lblSubscription);
+        Controls.Add(comboBoxSubscriptions);
+        Controls.Add(lblPayment);
+        Controls.Add(comboBoxPayment);
+        Controls.Add(lblPrice);
+        Controls.Add(lblPriceVal);
+        Controls.Add(lblDuration);
+        Controls.Add(lblDurationVal);
+        Controls.Add(lblSessions);
+        Controls.Add(lblSessionsVal);
+        Controls.Add(lblEndDate);
+        Controls.Add(lblEndDateVal);
+        Controls.Add(btnApply);
+        Controls.Add(btnApplyAndMark);
+        Margin = new Padding(3, 4, 3, 4);
+        Name = "ApplySubscriptionControl";
+        Size = new Size(480, 373);
+        ResumeLayout(false);
+        PerformLayout();
     }
 }

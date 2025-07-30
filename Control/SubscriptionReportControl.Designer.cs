@@ -2,27 +2,18 @@
 {
     partial class SubscriptionReportControl
     {
-        /// <summary> 
-        /// Обязательная переменная конструктора.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        // Элементы управления
         private System.Windows.Forms.DataGridView dgvRecords;
         private System.Windows.Forms.DateTimePicker dtpFrom;
         private System.Windows.Forms.DateTimePicker dtpTo;
-        private System.Windows.Forms.ComboBox cbPurchase;
+        private System.Windows.Forms.CheckedListBox clbPurchase;
         private System.Windows.Forms.ComboBox cbPayment;
         private System.Windows.Forms.Label lblSummary;
         private System.Windows.Forms.Button btnExport;
-
         private System.Windows.Forms.FlowLayoutPanel panelFilters;
         private System.Windows.Forms.Panel bottomPanel;
 
-        /// <summary> 
-        /// Освободить все используемые ресурсы.
-        /// </summary>
-        /// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -37,7 +28,7 @@
             panelFilters = new FlowLayoutPanel();
             dtpFrom = new DateTimePicker();
             dtpTo = new DateTimePicker();
-            cbPurchase = new ComboBox();
+            clbPurchase = new CheckedListBox();
             cbPayment = new ComboBox();
             dgvRecords = new DataGridView();
             bottomPanel = new Panel();
@@ -52,13 +43,13 @@
             // 
             panelFilters.Controls.Add(dtpFrom);
             panelFilters.Controls.Add(dtpTo);
-            panelFilters.Controls.Add(cbPurchase);
+            panelFilters.Controls.Add(clbPurchase);
             panelFilters.Controls.Add(cbPayment);
             panelFilters.Dock = DockStyle.Top;
             panelFilters.Location = new Point(0, 0);
             panelFilters.Name = "panelFilters";
             panelFilters.Padding = new Padding(5);
-            panelFilters.Size = new Size(800, 40);
+            panelFilters.Size = new Size(800, 90);
             panelFilters.TabIndex = 2;
             panelFilters.WrapContents = false;
             // 
@@ -78,18 +69,19 @@
             dtpTo.Size = new Size(120, 27);
             dtpTo.TabIndex = 1;
             // 
-            // cbPurchase
+            // clbPurchase
             // 
-            cbPurchase.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbPurchase.Location = new Point(260, 8);
-            cbPurchase.Name = "cbPurchase";
-            cbPurchase.Size = new Size(160, 28);
-            cbPurchase.TabIndex = 2;
+            clbPurchase.CheckOnClick = true;
+            clbPurchase.FormattingEnabled = true;
+            clbPurchase.Location = new Point(260, 8);
+            clbPurchase.Name = "clbPurchase";
+            clbPurchase.Size = new Size(200, 70);
+            clbPurchase.TabIndex = 2;
             // 
             // cbPayment
             // 
             cbPayment.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbPayment.Location = new Point(426, 8);
+            cbPayment.Location = new Point(466, 8);
             cbPayment.Name = "cbPayment";
             cbPayment.Size = new Size(160, 28);
             cbPayment.TabIndex = 3;
@@ -101,11 +93,11 @@
             dgvRecords.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvRecords.ColumnHeadersHeight = 29;
             dgvRecords.Dock = DockStyle.Fill;
-            dgvRecords.Location = new Point(0, 40);
+            dgvRecords.Location = new Point(0, 90);
             dgvRecords.Name = "dgvRecords";
             dgvRecords.ReadOnly = true;
             dgvRecords.RowHeadersWidth = 51;
-            dgvRecords.Size = new Size(800, 420);
+            dgvRecords.Size = new Size(800, 370);
             dgvRecords.TabIndex = 0;
             // 
             // bottomPanel

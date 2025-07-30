@@ -7,23 +7,17 @@ namespace TitanApp.Data
     {
         public DbSet<Client> Clients { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
-
         public DbSet<SubscriptionLogs> SubscriptionLogs { get; set; }
         public DbSet<SubscriptionLogs> Logs => SubscriptionLogs;
-
         public AppDbContext() { }
-
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // Только если не передан options
             if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlite("Data Source=titanapp.db");
-            }
+            {optionsBuilder.UseSqlite("Data Source=titanapp.db");}
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

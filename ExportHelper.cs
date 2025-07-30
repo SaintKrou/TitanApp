@@ -10,81 +10,88 @@ public static class ExportHelper
     /// <param name="dgv">The DataGridView containing data to export.</param>
     public static void ExportDataGridViewToExcel(DataGridView dgv)
     {
+        if (dgv == null || dgv.Rows.Count == 0)
+        {
+            MessageBox.Show("Нет данных для экспорта.", "Экспорт", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return;
+        }
+
         try
         {
-            // Create a new Excel workbook
             using (var workbook = new XLWorkbook())
             {
-                // Add a worksheet
                 var ws = workbook.Worksheets.Add("Sheet1");
 
                 int rowIndex = 1;
-                int colIndex;
+                int colIndex = 1;
 
-                // Write column headers (bold font)
-                colIndex = 1;
                 foreach (DataGridViewColumn column in dgv.Columns)
                 {
-                    if (!column.Visible) continue; // skip hidden columns
+                    if (!column.Visible) continue;
                     ws.Cell(rowIndex, colIndex).Value = column.HeaderText;
-                    ws.Cell(rowIndex, colIndex).Style.Font.Bold = true; // Жирный шрифт заголовков:contentReference[oaicite:0]{index=0}
+                    ws.Cell(rowIndex, colIndex).Style.Font.Bold = true;
                     colIndex++;
                 }
 
-                // Write row data for each visible row
                 foreach (DataGridViewRow row in dgv.Rows)
                 {
-                    if (!row.Visible || row.IsNewRow) continue; // skip hidden or new rows
+                    if (row.IsNewRow || !row.Visible) continue;
+
                     rowIndex++;
                     colIndex = 1;
+
                     foreach (DataGridViewColumn column in dgv.Columns)
                     {
                         if (!column.Visible) continue;
-                        var cellValue = row.Cells[column.Index].Value;
-                        if (cellValue != null)
+
+                        var value = row.Cells[column.Index].Value;
+
+                        if (value == null || value == DBNull.Value)
                         {
-                            if (cellValue is DateTime dateVal)
-                            {
-                                // Write date and format as dd.MM.yyyy
-                                ws.Cell(rowIndex, colIndex).Value = dateVal;
-                                ws.Cell(rowIndex, colIndex).Style.DateFormat.Format = "dd.MM.yyyy"; // Формат даты dd.MM.yyyy:contentReference[oaicite:1]{index=1}
-                            }
-                            else
-                            {
-                                // Try to write numeric or text
-                                if (double.TryParse(cellValue.ToString(), out double d))
-                                {
-                                    ws.Cell(rowIndex, colIndex).Value = d; // числовые (выравниваются вправо по умолчанию):contentReference[oaicite:2]{index=2}
-                                }
-                                else
-                                {
-                                    ws.Cell(rowIndex, colIndex).Value = cellValue.ToString();
-                                }
-                            }
+                            colIndex++;
+                            continue;
                         }
+
+                        var cell = ws.Cell(rowIndex, colIndex);
+
+                        switch (value)
+                        {
+                            case DateTime dateVal:
+                                cell.Value = dateVal;
+                                cell.Style.DateFormat.Format = "dd.MM.yyyy";
+                                break;
+                            case int or long or double or float or decimal:
+                                cell.Value = Convert.ToDouble(value);
+                                break;
+                            default:
+                                cell.Value = value.ToString();
+                                break;
+                        }
+
                         colIndex++;
                     }
                 }
 
-                // Auto-adjust column widths to fit content:contentReference[oaicite:3]{index=3}
                 ws.Columns().AdjustToContents();
 
-                // Prompt user to save the file (.xlsx)
-                var sfd = new SaveFileDialog
+                using (var sfd = new SaveFileDialog
                 {
-                    Filter = "Excel files (*.xlsx)|*.xlsx",
-                    Title = "Save as Excel File"
-                };
-                if (sfd.ShowDialog() == DialogResult.OK)
+                    Filter = "Excel файлы (*.xlsx)|*.xlsx",
+                    Title = "Сохранить как Excel",
+                    FileName = "Экспорт.xlsx"
+                })
                 {
-                    workbook.SaveAs(sfd.FileName); // Save workbook to selected path:contentReference[oaicite:4]{index=4}
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
+                        workbook.SaveAs(sfd.FileName);
+                        MessageBox.Show("Экспорт завершён успешно.", "Экспорт", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
             }
         }
         catch (Exception ex)
         {
-            // Show error message if something goes wrong
-            MessageBox.Show($"Ошибка при экспорте: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show($"Ошибка при экспорте:\n{ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

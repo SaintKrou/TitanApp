@@ -3,26 +3,26 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TitanApp.Controls;
 using TitanApp.Data;
 using TitanApp.Models;
-using TitanApp.Services;   //  <-- сервис фоновой синхронизации
+using TitanApp.Services;
 
 namespace TitanApp
 {
     public partial class MainForm : Form
     {
-        private readonly ApiSyncService _syncService = new();          // сервис отправки на API
         private ContextMenuStrip? _tabContextMenu;
         private TabPage? _rightClickedTab;
         private System.Windows.Forms.Timer _networkTimer;
 
         private readonly string logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "activity.log.txt");
+        private readonly string jsonFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "clients.json");
         private ClientListControl? _clientListControl;
 
-        // Событие изменения клиентов.
         public event EventHandler ClientsDataChanged = delegate { };
 
         public MainForm()
@@ -31,27 +31,33 @@ namespace TitanApp
             InitUI();
             InitializeContextMenu();
 
-            // ---- сетевой индикатор ----
             _networkTimer = new System.Windows.Forms.Timer();
             _networkTimer.Interval = 5000;
             _networkTimer.Tick += NetworkTimer_Tick;
             _networkTimer.Start();
             UpdateNetworkStatus();
 
-            // ---- фоновые загрузка и синхронизация ----
-            _syncService.StatusChanged += UpdateNotification;           // выводим сообщения в lblNotifications
-            _syncService.HostStatusChanged += UpdateHostStatus;          // выводим статус хоста в lblHostStatus
-            _syncService.TelegramStatusChanged += UpdateTelegramStatus;  // выводим статус Telegram в lblTelegramStatus
-
-            LoadClientsAndSync();                                         // первая попытка отправки
+            _ = LoadClientsAndUploadAsync();
         }
 
-        // Подгружаем клиентов из локальной БД и запускаем отправку
-        private void LoadClientsAndSync()
+        private async Task LoadClientsAndUploadAsync()
         {
             using var db = new AppDbContext();
             List<Client> clients = db.Clients.ToList();
-            _syncService.TriggerSync(clients);
+
+            try
+            {
+                string json = JsonSerializer.Serialize(clients, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(jsonFile, json);
+                UpdateNotification("Клиенты сохранены в файл.");
+
+                bool uploaded = await YandexDiskUploader.UploadFileAsync(jsonFile, "clients.json");
+                UpdateNotification(uploaded ? "Данные загружены на Яндекс.Диск" : "Ошибка загрузки в Яндекс.Диск");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка сериализации/загрузки: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void InitUI() => ShowClientsTab();
@@ -95,7 +101,6 @@ namespace TitanApp
         private void btnReport_Click(object? sender, EventArgs e) => OpenTab("Отчёт по абонементам", new SubscriptionReportControl());
         private void btnExit_Click(object? sender, EventArgs e) => Close();
 
-        // ---------------- контекстное меню вкладок ----------------
         private void InitializeContextMenu()
         {
             _tabContextMenu = new ContextMenuStrip();
@@ -140,7 +145,6 @@ namespace TitanApp
             }
         }
 
-        // ---------------- индикатор сети ----------------
         private void NetworkTimer_Tick(object? sender, EventArgs e) => UpdateNetworkStatus();
 
         private async void UpdateNetworkStatus()
@@ -170,7 +174,6 @@ namespace TitanApp
             catch { return "Отсутствует"; }
         }
 
-        // ---------------- статус-бар и лог ----------------
         public void UpdateNotification(string message)
         {
             if (InvokeRequired)
@@ -179,21 +182,8 @@ namespace TitanApp
                 lblNotifications.Text = message;
         }
 
-        public void UpdateHostStatus(string message)
-        {
-            /*if (InvokeRequired)
-                Invoke((MethodInvoker)(() => lblHostStatus.Text = message));
-            else
-                lblHostStatus.Text = message;*/
-        }
-
-        public void UpdateTelegramStatus(string message)
-        {
-            /*if (InvokeRequired)
-                Invoke((MethodInvoker)(() => lblTelegramStatus.Text = message));
-            else
-                lblTelegramStatus.Text = message;*/
-        }
+        public void UpdateHostStatus(string message) { }
+        public void UpdateTelegramStatus(string message) { }
 
         public void AddLog(string message)
         {
@@ -208,10 +198,9 @@ namespace TitanApp
             }
         }
 
-        // Вызывается контролами после изменения клиентов
         public void NotifyClientsDataChanged()
         {
-            LoadClientsAndSync();                // повторяем отправку
+            _ = LoadClientsAndUploadAsync();
             ClientsDataChanged?.Invoke(this, EventArgs.Empty);
         }
     }

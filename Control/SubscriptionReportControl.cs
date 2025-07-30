@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using TitanApp.Data;
 using TitanApp.Models;
 using Microsoft.Data.Sqlite;
+using System.Collections.Generic;
 
 namespace TitanApp.Controls
 {
@@ -16,7 +17,6 @@ namespace TitanApp.Controls
             InitializeComponent();
             _db = new AppDbContext();
             InitializeFilters();
-            LoadData();
         }
 
         private void InitializeFilters()
@@ -24,8 +24,7 @@ namespace TitanApp.Controls
             dtpFrom.Value = DateTime.Today.AddMonths(-1);
             dtpTo.Value = DateTime.Today;
 
-            cbPurchase.Items.Clear();
-            cbPurchase.Items.Add("Все");
+            clbPurchase.Items.Clear();
 
             try
             {
@@ -35,16 +34,14 @@ namespace TitanApp.Controls
                     .OrderBy(p => p)
                     .ToArray();
 
-                cbPurchase.Items.AddRange(purchaseNames);
+                foreach (var name in purchaseNames)
+                    clbPurchase.Items.Add(name, true); // Выбраны по умолчанию
             }
             catch (SqliteException)
             {
-                // Таблица Purchases не найдена — оставим "Все"
+                // Ошибка доступа к таблице Purchases
             }
 
-            cbPurchase.SelectedIndex = 0;
-
-            // Заполняем фильтр способа оплаты вручную
             cbPayment.Items.Clear();
             cbPayment.Items.Add("Все");
             cbPayment.Items.Add("Наличные");
@@ -53,8 +50,10 @@ namespace TitanApp.Controls
 
             dtpFrom.ValueChanged += (s, e) => LoadData();
             dtpTo.ValueChanged += (s, e) => LoadData();
-            cbPurchase.SelectedIndexChanged += (s, e) => LoadData();
+            clbPurchase.ItemCheck += (s, e) => BeginInvoke((MethodInvoker)LoadData);
             cbPayment.SelectedIndexChanged += (s, e) => LoadData();
+
+            LoadData();
         }
 
         private void LoadData()
@@ -64,37 +63,48 @@ namespace TitanApp.Controls
 
             try
             {
+                // Чтение клиентов в память
+                var clients = _db.Clients
+                    .Select(c => new { c.Id, c.LastName, c.FirstName, c.MiddleName })
+                    .ToDictionary(c => c.Id);
+
                 var query = _db.SubscriptionLogs
                     .Where(l => l.AppliedAt >= from && l.AppliedAt < to);
 
-                if (cbPurchase.SelectedIndex > 0)
+                var selectedPurchases = clbPurchase.CheckedItems.Cast<string>().ToList();
+                if (selectedPurchases.Any())
                 {
-                    var title = cbPurchase.SelectedItem?.ToString();
-                    query = query.Where(l => l.PurchaseName == title);
+                    query = query.Where(l => selectedPurchases.Contains(l.PurchaseName));
                 }
 
                 if (cbPayment.SelectedIndex > 0)
                 {
                     var methodRus = cbPayment.SelectedItem?.ToString();
-
                     if (methodRus == "Наличные")
                         query = query.Where(l => l.PaymentMethod == PaymentMethod.Cash);
                     else if (methodRus == "Безналичные")
                         query = query.Where(l => l.PaymentMethod == PaymentMethod.NonCash);
                 }
 
-                var data = query
+                // Выполняем запрос
+                var logs = query
                     .OrderByDescending(l => l.AppliedAt)
+                    .ToList(); // важно: сначала ToList, потом преобразования
+
+                var data = logs
                     .Select(l => new
                     {
-                        Дата = l.AppliedAt,
-                        Клиент = l.ClientName,
+                        ID = l.ClientId,
+                        Клиент = clients.TryGetValue(l.ClientId, out var c)
+                            ? $"{c.LastName} {GetInitial(c.FirstName)}{GetInitial(c.MiddleName)}"
+                            : l.ClientName,
                         Абонемент = l.PurchaseName,
                         Тип = l.Unlimited ? "Безлимит" : "Ограниченный",
                         Посещений = l.SessionsAdded ?? 0,
                         До = l.NewSubscriptionEnd,
                         Способ = l.PaymentMethod == PaymentMethod.Cash ? "Наличные" : "Безналичные",
-                        Сумма = l.Cost
+                        Сумма = l.Cost,
+                        Дата = l.AppliedAt
                     })
                     .ToList();
 
@@ -110,9 +120,16 @@ namespace TitanApp.Controls
             }
         }
 
+        private static string GetInitial(string? name)
+        {
+            if (string.IsNullOrWhiteSpace(name)) return "";
+            return name.Trim()[0] + ".";
+        }
+
         private void BtnExport_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Экспорт временно отключён (ExportHelper не реализован).", "Экспорт", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ExportHelper.ExportDataGridViewToExcel(dgvRecords);
         }
+
     }
 }
